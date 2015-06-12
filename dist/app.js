@@ -5,73 +5,102 @@
 }(function () { 'use strict';
 
     var slate = {
-        render: function (canvas) {
-            var options = arguments[1] === undefined ? { element: element, bgColor: bgColor, textColor: textColor, font: font, delay: delay } : arguments[1];
-            return (function () {
-                var ctx = canvas.getContext('2d');
-                var w = canvas.width;
-                var h = canvas.height;
-                var x = w / 2;
-                var y = h / 2;
-                var bgColor = bgColor || '#018790';
-                var textColor = textColor || '#fff';
-                var font = font || '100 30px/30px "Times New Roman", Times, serif';
-                var delay = delay || 300;
-                var fontHeight = 30;
+        setFont: function (ctx, font, scale) {
+            var height = 30;
+            ctx.font = height * scale + 'px ' + font;
+        },
 
-                var gif = new GIF({
-                    workers: 2,
-                    quality: 10,
-                    width: 400,
-                    height: 400
+        createDummy: function (canvas) {
+            var dummy = document.createElement('canvas');
+            var scale = 2;
+
+            dummy.width = canvas.width * scale;
+            dummy.height = canvas.height * scale;
+
+            return dummy.getContext('2d');
+        },
+
+        clearBackground: function (ctx, color) {
+            var w = ctx.canvas.width;
+            var h = ctx.canvas.height;
+
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, w, h);
+        },
+
+        drawText: function (ctx, color, text) {
+            var mw = ctx.canvas.width / 2;
+            var mh = ctx.canvas.height / 2;
+
+            ctx.textAlign = 'center';
+            ctx.fillStyle = color;
+            ctx.fillText(text, mw, mh);
+        },
+
+        drawDummy: function (ctx, dummy) {
+            var w = ctx.canvas.width;
+            var h = ctx.canvas.height;
+
+            ctx.drawImage(dummy.canvas, 0, 0, w, h);
+        },
+
+        render: function (canvas, options) {
+            var ctx = canvas.getContext('2d');
+            var dummy = this.createDummy(canvas);
+            var w = canvas.width;
+            var h = canvas.height;
+            var bgColor = options.bgColor;
+            var textColor = options.textColor;
+            var gif = this.getGifCreator(canvas);
+            var delay = 350;
+
+            this.setFont(dummy, options.font, 2);
+
+            var words = options.text.split(' ');
+            for (var i = 0, l = words.length - 1; i < l; i++) {
+                this.clearBackground(dummy, bgColor);
+                this.drawText(dummy, textColor, words[i]);
+
+                this.drawDummy(ctx, dummy);
+                gif.addFrame(ctx, {
+                    copy: true,
+                    delay: delay
                 });
+            }
 
-                ctx.fillStyle = bgColor;
-                ctx.font = font;
-                ctx.textAlign = 'center';
-                ctx.fillRect(0, 0, w, h);
+            this.clearBackground(dummy, bgColor);
+            this.drawDummy(ctx, dummy);
+            gif.addFrame(ctx, {
+                copy: true,
+                delay: delay
+            });
 
-                var text = options.text || 'hello world';
-                var splitArray = text.split(' ');
+            gif.render();
+        },
 
-                var scale = 2;
-                var ocanvas = document.createElement('canvas');
-                var octx = ocanvas.getContext('2d');
-                var ow = w * scale;
-                var oh = h * scale;
-                ocanvas.width = ow;
-                ocanvas.height = oh;
-                octx.font = fontHeight * scale + 'px Times New Roman, Times, serif';
+        getGifCreator: function (canvas) {
+            var gif = new GIF({
+                workers: 2,
+                quality: 10,
+                width: canvas.width,
+                height: canvas.height
+            });
 
-                octx.textAlign = 'center';
-                gif.addFrame(ctx, { copy: true, delay: delay });
+            gif.on('finished', function (blob) {
+                window.open(URL.createObjectURL(blob));
+            });
 
-                for (var i = 0, l = splitArray.length; i < l; i++) {
-                    octx.fillStyle = bgColor;
-                    octx.fillRect(0, 0, ow, oh);
-                    octx.fillStyle = textColor;
-                    octx.fillText(splitArray[i], ow / 2, oh / 2);
-
-                    ctx.drawImage(ocanvas, 0, 0, w, h);
-                    gif.addFrame(ctx, { copy: true, delay: delay });
-
-                    octx.fillStyle = bgColor;
-                    octx.fillRect(0, 0, ow, oh);
-
-                    ctx.drawImage(ocanvas, 0, 0, w, h);
-                    gif.addFrame(ctx, { copy: true, delay: delay });
-                }
-
-                gif.on('finished', function (blob) {
-                    window.open(URL.createObjectURL(blob));
-                });
-
-                gif.render();
-            })();
+            return gif;
         }
     };
 
     var canvas = document.getElementById('canvas');
-    slate.render(canvas, { element: '.result', text: 'There is another world out' });
+    slate.render(canvas, {
+        element: '.result',
+        text: 'There is another world out',
+        bgColor: '#018790',
+        textColor: '#fff',
+        font: 'Roboto, Times New Roman, Times, serif'
+    });
 
 }));

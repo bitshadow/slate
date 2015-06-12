@@ -1,63 +1,89 @@
 export default {
-    render(canvas, options = { element, bgColor, textColor, font, delay }) {
+    setFont(ctx, font, scale) {
+        let height = 30;
+        ctx.font = (height * scale) + "px " + font;
+    },
+
+    createDummy(canvas) {
+        let dummy = document.createElement('canvas');
+        let scale = 2;
+
+        dummy.width = canvas.width * scale;
+        dummy.height = canvas.height * scale;
+
+        return dummy.getContext('2d');
+    },
+
+    clearBackground(ctx, color) {
+        let w = ctx.canvas.width;
+        let h = ctx.canvas.height;
+
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, w, h);
+    },
+
+    drawText(ctx, color, text) {
+        let mw = ctx.canvas.width / 2;
+        let mh = ctx.canvas.height / 2;
+
+        ctx.textAlign = 'center';
+        ctx.fillStyle = color;
+        ctx.fillText(text, mw, mh);
+    },
+
+    drawDummy(ctx, dummy) {
+        let w = ctx.canvas.width;
+        let h = ctx.canvas.height;
+
+        ctx.drawImage(dummy.canvas, 0, 0, w, h);
+    },
+
+    render(canvas, options) {
         let ctx = canvas.getContext('2d');
+        let dummy = this.createDummy(canvas);
         let w = canvas.width;
         let h = canvas.height;
-        let x = w / 2;
-        let y = h / 2;
-        let bgColor = bgColor || '#018790';
-        let textColor = textColor || '#fff';
-        let font = font || '100 30px/30px "Times New Roman", Times, serif';
-        let delay = delay || 200;
-        let fontHeight = 30;
+        let bgColor = options.bgColor;
+        let textColor = options.textColor;
+        let gif = this.getGifCreator(canvas);
+        let delay = 350;
 
-        let gif = new GIF({
-          workers: 2,
-          quality: 10,
-          width: 400,
-          height: 400
+        this.setFont(dummy, options.font, 2);
+
+        var words = options.text.split(' ');
+        for (let i = 0, l = words.length - 1; i < l; i++) {
+            this.clearBackground(dummy, bgColor);
+            this.drawText(dummy, textColor, words[i]);
+
+            this.drawDummy(ctx, dummy);
+            gif.addFrame(ctx, {
+                copy: true,
+                delay: delay
+            });
+        }
+
+        this.clearBackground(dummy, bgColor);
+        this.drawDummy(ctx, dummy);
+        gif.addFrame(ctx, {
+            copy: true,
+            delay: delay
         });
 
-        ctx.fillStyle = bgColor;
-        ctx.font = font;
-        ctx.textAlign = 'center';
-        ctx.fillRect(0, 0, w, h);
+        gif.render();
+    },
 
-        let text = options.text || 'hello world';
-        let splitArray = text.split(' ');
-
-        let scale = 2;
-        let ocanvas = document.createElement('canvas');
-        let octx = ocanvas.getContext('2d');
-        let ow = w * scale;
-        let oh = h * scale;
-        ocanvas.width = ow;
-        ocanvas.height = oh;
-        octx.font = (fontHeight * scale) + "px Times New Roman, Times, serif";
-
-        octx.textAlign = 'center';
-        gif.addFrame(ctx, {copy: true, delay: delay});
-
-        for (let i = 0, l = splitArray.length; i < l; i++) {
-            octx.fillStyle = bgColor;
-            octx.fillRect(0, 0, ow, oh);
-            octx.fillStyle = textColor;
-            octx.fillText(splitArray[i], ow / 2, oh / 2);
-
-            ctx.drawImage(ocanvas, 0, 0, w, h);
-            gif.addFrame(ctx, {copy: true, delay: delay});
-
-            octx.fillStyle = bgColor;
-            octx.fillRect(0, 0, ow, oh);
-
-            ctx.drawImage(ocanvas, 0, 0, w, h);
-            gif.addFrame(ctx, {copy: true, delay: delay});
-        }
+    getGifCreator: function(canvas) {
+        let gif = new GIF({
+            workers: 2,
+            quality: 10,
+            width: canvas.width,
+            height: canvas.height
+        });
 
         gif.on('finished', function(blob) {
             window.open(URL.createObjectURL(blob));
         });
 
-        gif.render()
+        return gif;
     }
 }
