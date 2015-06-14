@@ -1,10 +1,7 @@
-import slate from './slate';
+import SlateModel from './models/slate.js';
+import SlateConfigView from './views/slateConfig.js';
+import SlateView from './views/slate.js';
 
-let canvas = document.getElementById('canvas');
-slate.render(canvas, {
-    element: '.result',
-    text: "There is another world out",
-    bgColor: '#018790',
-    textColor: '#fff',
-    font: "Roboto, Times New Roman, Times, serif"
-});
+let model = new SlateModel();
+let slateConfigView = new SlateConfigView({ model: model, el: $('.slate__config')});
+let slateView = new SlateView({ model: model, el: $('.slate__preview') });

@@ -2,16 +2,37 @@
     <html class="no-js">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href='src/css/app.css'>
     </head>
     <body>
-        <canvas id="canvas" width="400" height="400"></canvas>
-        <img id="result"></img>
-        <script type="text/javascript" src="lib/gif.js"></script>
-        <script type="text/javascript" src="lib/gif.worker.js"></script>
-        <script type="text/javascript" src="dist/app.js"></script>
+        <header class="site__header">
+            <h1 class='site__title'>Slate</h1>
+        </header>
+
+        <div class="slate site__content">
+            <div class="slate__config">
+                <input id="text-box" class="text-box" type="text" name="text" value="" placeholder="">
+                <button id="generate" class="text-box__button">Generate</button>
+            <div>
+            <div class="slate__preview">
+                <!-- <canvas id="canvas" width="400" height="400" style="display:none;"></canvas> -->
+                <img id="result"></img>
+            </div>
+        </div>
+
+        <footer class="site__footer">
+        </footer>
+
+        <script src="lib/gif.js"></script>
+        <script src="lib/gif.worker.js"></script>
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/underscore/underscore.js"></script>
+        <script src="bower_components/backbone/backbone.js"></script>
+        <script src="dist/app.js"></script>
     </body>
 </html>
