@@ -45,6 +45,8 @@
 
     var SlateConfigView___createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+    var SlateConfigView___get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return SlateConfigView__get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
     function SlateConfigView___classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
     function SlateConfigView___inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
@@ -53,24 +55,21 @@
     var SlateConfigView__View = SlateConfigView___Backbone.View;
 
     var SlateConfigView___default = (function (_View) {
-        var _class = function _default() {
+        var _class = function _default(options) {
             SlateConfigView___classCallCheck(this, _class);
 
-            if (_View != null) {
-                _View.apply(this, arguments);
-            }
+            _.defaults(options, {
+                events: {
+                    'click #generate': 'setAttributes'
+                }
+            });
+
+            SlateConfigView___get(Object.getPrototypeOf(_class.prototype), 'constructor', this).call(this, options);
         };
 
         SlateConfigView___inherits(_class, _View);
 
         SlateConfigView___createClass(_class, [{
-            key: 'initialize',
-            value: function initialize() {
-                this.events = {
-                    'click #generate': 'setAttributes'
-                };
-            }
-        }, {
             key: 'setAttributes',
             value: function setAttributes(e) {
                 var text = $('[name="text"]').val();
@@ -84,8 +83,8 @@
     var SlateConfigView = SlateConfigView___default;
 
     var slate = {
-        setFont: function (ctx, scale) {
-            ctx.font = this.fontHeight * scale + 'px ' + this.font;
+        setFont: function (ctx) {
+            ctx.font = this.fontHeight * this.scale + 'px ' + this.font;
         },
 
         createDummy: function () {
@@ -145,7 +144,7 @@
             var dummy = _this.createDummy();
             var gif = _this.getGifCreator(element);
 
-            _this.setFont(dummy, this.scale);
+            _this.setFont(dummy);
 
             var words = this.text.split(' ');
             for (var i = 0, l = words.length; i < l; i++) {
@@ -188,7 +187,7 @@
 
     var SlateView___createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-    var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+    var SlateView___get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return SlateView__get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
     function SlateView___classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
@@ -201,7 +200,7 @@
         var _class = function _default(options) {
             SlateView___classCallCheck(this, _class);
 
-            _get(Object.getPrototypeOf(_class.prototype), 'constructor', this).call(this, options);
+            SlateView___get(Object.getPrototypeOf(_class.prototype), 'constructor', this).call(this, options);
 
             this.listenTo(this.model, 'change', this.render);
         };
@@ -211,9 +210,8 @@
         SlateView___createClass(_class, [{
             key: 'render',
             value: function render() {
-                var model = this.model;
-
                 slate.setProperties(this.model.toJSON());
+                // use callback here;
                 slate.render(document.getElementById('result'));
             }
         }]);
@@ -223,8 +221,33 @@
 
     var SlateView = SlateView___default;
 
-    var model = new SlateModel();
-    var slateConfigView = new SlateConfigView({ model: model, el: $('.slate__config') });
-    var slateView = new SlateView({ model: model, el: $('.slate__preview') });
+    var app___createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+    function app___classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+    var SlateApp = (function () {
+        function SlateApp() {
+            app___classCallCheck(this, SlateApp);
+        }
+
+        app___createClass(SlateApp, [{
+            key: 'render',
+            value: function render() {
+                var model = new SlateModel();
+                new SlateConfigView({
+                    model: model,
+                    el: $('.slate__config')
+                });
+                new SlateView({
+                    model: model,
+                    el: $('.slate__preview')
+                });
+            }
+        }]);
+
+        return SlateApp;
+    })();
+
+    new SlateApp().render();
 
 }));

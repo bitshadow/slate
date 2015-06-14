@@ -9,9 +9,8 @@ export default class extends View {
     }
 
     render() {
-        let model = this.model;
-
         slate.setProperties(this.model.toJSON());
+        // use callback here;
         slate.render(document.getElementById('result'));
     }
 }

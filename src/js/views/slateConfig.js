@@ -1,10 +1,14 @@
 let { View } = Backbone;
 
 export default class extends View {
-    initialize() {
-        this.events = {
-            'click #generate': 'setAttributes'
-        };
+    constructor(options) {
+        _.defaults(options, {
+            events: {
+                'click #generate': 'setAttributes'
+            }
+        });
+
+        super(options);
     }
 
     setAttributes(e) {
