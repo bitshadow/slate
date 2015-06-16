@@ -4,7 +4,8 @@
   "dependencies": {
     "jquery": "~2.1.0",
     "backbone": "~1.1.0",
-    "es6-module-loader": "~0.4.2"
+    "es6-module-loader": "~0.4.2",
+    "JSColor": "~1.4.2"
   },
   "resolutions": {
     "backbone": "~1.1.0"

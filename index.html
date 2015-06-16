@@ -4,21 +4,43 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>slate: A different kind of meme generator</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
         <link rel="stylesheet" href='src/css/app.css'>
     </head>
     <body>
-        <header class="site__header">
-            <h1 class='site__title'>Slate</h1>
-        </header>
-
         <div class="slate site__content">
             <div class="slate__config">
-                <input id="text-box" class="text-box" type="text" name="text" value="" placeholder="">
-                <button id="generate" class="text-box__button">Generate</button>
-            <div>
+                <div class="site__logo">
+                    <h1>Slate</h1>
+                </div>
+                <ul>
+                    <li>
+                        <label for='text'>Text:</label>
+                        <input id="text" class="text" type="text" name="text" value="" placeholder="Enter Your Text Here">
+                    </li>
+                    <li>
+                        <label for='text-color'>Color:</label>
+                        <input id="text-color" class="color text-color" type="text" name="textColor" value="" placeholder="">
+                    </li>
+                    <li>
+                        <label for='bg-color'>Background:</label>
+                        <input id="bg-color" class="color bg-color" type="text" name="bgColor" value="" placeholder="">
+                    </li>
+                    <li>
+                        <label for='delay'>Frame Delay:</label>
+                        <input id="delay" class="delay" type="text" name="delay" value="250" placeholder="">
+                        <span class='unit'>ms</span>
+                    </li>
+                    <li>
+                        <label for='height'>Font Height:</label>
+                        <input id="height" class="height" type="text" name="fontHeight" value="50" placeholder="">
+                        <span class='unit'>px</span>
+                    </li>
+                </ol>
+            </div>
             <div class="slate__preview">
                 <img id="result"></img>
             </div>
@@ -32,6 +54,7 @@
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/underscore/underscore.js"></script>
         <script src="bower_components/backbone/backbone.js"></script>
+        <script src="bower_components/JSColor/jscolor.js"></script>
         <script src="dist/app.js"></script>
     </body>
 </html>

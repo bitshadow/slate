@@ -30,10 +30,12 @@
                 return {
                     bgColor: '#018790',
                     textColor: '#fff',
-                    font: 'Roboto, Times New Roman, Times, serif',
+                    font: 'Tangerine, serif',
                     text: 'Generate your text here',
-                    width: 400,
-                    height: 400
+                    width: 540,
+                    height: 540,
+                    fontHeight: 105,
+                    delay: 250
                 };
             }
         }]);
@@ -60,16 +62,58 @@
 
             _.defaults(options, {
                 events: {
-                    'click #generate': 'setAttributes'
+                    'change .text-color': 'setTextColor',
+                    'change .bg-color': 'setBgColor',
+                    'keyup .height': 'setFontHeight',
+                    'keyup .text': 'setText',
+                    'keyup .delay': 'setDelay'
                 }
             });
 
             SlateConfigView___get(Object.getPrototypeOf(_class.prototype), 'constructor', this).call(this, options);
+            this.$('.text-color').val(this.model.get('textColor'));
+            this.$('.bg-color').val(this.model.get('bgColor'));
         };
 
         SlateConfigView___inherits(_class, _View);
 
         SlateConfigView___createClass(_class, [{
+            key: 'initialize',
+            value: function initialize() {
+                this._setDebouncedText = _.debounce(_.bind(this.setDebouncedText, this), 300);
+            }
+        }, {
+            key: 'setDebouncedText',
+            value: function setDebouncedText(text) {
+                this.model.set({ text: text });
+            }
+        }, {
+            key: 'setDelay',
+            value: function setDelay(e) {
+                this.model.set({ delay: parseInt($(e.target).val(), 10) });
+            }
+        }, {
+            key: 'setText',
+            value: function setText(e) {
+                var text = $(e.target).val();
+                this._setDebouncedText(text);
+            }
+        }, {
+            key: 'setFontHeight',
+            value: function setFontHeight(e) {
+                this.model.set({ fontHeight: parseInt($(e.target).val(), 10) });
+            }
+        }, {
+            key: 'setTextColor',
+            value: function setTextColor(e) {
+                this.model.set({ textColor: '#' + $(e.target).val() });
+            }
+        }, {
+            key: 'setBgColor',
+            value: function setBgColor(e) {
+                this.model.set({ bgColor: '#' + $(e.target).val() });
+            }
+        }, {
             key: 'setAttributes',
             value: function setAttributes(e) {
                 var text = $('[name="text"]').val();
@@ -84,7 +128,8 @@
 
     var slate = {
         setFont: function (ctx) {
-            ctx.font = this.fontHeight * this.scale + 'px ' + this.font;
+            var fontSize = this.fontHeight * this.scale + 'px';
+            ctx.font = fontSize + '/' + fontSize + ' ' + this.font;
         },
 
         createDummy: function () {
@@ -108,6 +153,7 @@
             var mh = ctx.canvas.height / 2;
 
             ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
             ctx.fillStyle = this.textColor;
             ctx.fillText(text, mw, mh);
         },
@@ -135,6 +181,7 @@
             this.textColor = options.textColor;
             this.delay = options.delay || 350;
             this.fontHeight = options.fontHeight || 40;
+            this.font = options.font || 'Georgia, serif';
             this.scale = 2;
         },
 
@@ -146,7 +193,7 @@
 
             _this.setFont(dummy);
 
-            var words = this.text.split(' ');
+            var words = this.text.trim().split(' ');
             for (var i = 0, l = words.length; i < l; i++) {
                 _this.drawBackground(dummy);
                 _this.drawText(dummy, words[i]);
@@ -162,7 +209,7 @@
             _this.drawDummy(ctx, dummy);
             gif.addFrame(ctx, {
                 copy: true,
-                delay: _this.delay
+                delay: 2 * _this.delay
             });
 
             gif.render();
@@ -203,6 +250,7 @@
             SlateView___get(Object.getPrototypeOf(_class.prototype), 'constructor', this).call(this, options);
 
             this.listenTo(this.model, 'change', this.render);
+            // this.render();
         };
 
         SlateView___inherits(_class, _View);

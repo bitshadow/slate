@@ -5,10 +5,12 @@ export default class extends Model{
         return {
             bgColor: '#018790',
             textColor: '#fff',
-            font: 'Roboto, Times New Roman, Times, serif',
+            font: 'Tangerine, serif',
             text: 'Generate your text here',
-            width: 400,
-            height: 400
+            width: 540,
+            height: 540,
+            fontHeight: 105,
+            delay: 250
         }
     }
 };

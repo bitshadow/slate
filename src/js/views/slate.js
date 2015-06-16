@@ -6,6 +6,7 @@ export default class extends View {
         super(options);
 
         this.listenTo(this.model, 'change', this.render);
+        // this.render();
     }
 
     render() {

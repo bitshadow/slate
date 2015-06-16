@@ -1,6 +1,7 @@
 export default {
     setFont(ctx) {
-        ctx.font = (this.fontHeight * this.scale) + "px " + this.font;
+        var fontSize = (this.fontHeight * this.scale) + 'px';
+        ctx.font = fontSize + '/' + fontSize + ' ' + this.font;
     },
 
     createDummy() {
@@ -24,6 +25,7 @@ export default {
         let mh = ctx.canvas.height / 2;
 
         ctx.textAlign = 'center';
+        ctx.textBaseline ='middle';
         ctx.fillStyle = this.textColor;
         ctx.fillText(text, mw, mh);
     },
@@ -51,6 +53,7 @@ export default {
         this.textColor = options.textColor;
         this.delay = options.delay || 350;
         this.fontHeight = options.fontHeight || 40;
+        this.font = options.font || 'Georgia, serif';
         this.scale = 2;
     },
 
@@ -62,7 +65,7 @@ export default {
 
         _this.setFont(dummy);
 
-        var words = this.text.split(' ');
+        var words = this.text.trim().split(' ');
         for (let i = 0, l = words.length; i < l; i++) {
             _this.drawBackground(dummy);
             _this.drawText(dummy, words[i]);
@@ -78,7 +81,7 @@ export default {
         _this.drawDummy(ctx, dummy);
         gif.addFrame(ctx, {
             copy: true,
-            delay: _this.delay
+            delay: 2 * _this.delay
         });
 
         gif.render();
