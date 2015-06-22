@@ -30,11 +30,11 @@
                 return {
                     bgColor: '#018790',
                     textColor: '#fff',
-                    font: 'Tangerine, serif',
+                    font: 'Georgia, serif',
                     text: 'Generate your text here',
                     width: 540,
                     height: 540,
-                    fontHeight: 105,
+                    fontHeight: 50,
                     delay: 250
                 };
             }
@@ -224,8 +224,33 @@
                 height: _this.height
             });
 
-            gif.on('finished', function (blob) {
-                element.src = URL.createObjectURL(blob);
+            gif.on('finished', function (blob, data) {
+                var obj = btoa(String.fromCharCode.apply(null, data));
+                localStorage.dataBase64 = obj;
+                element.src = 'data:image/gif;base64,' + obj;
+                var auth = 'Client-ID ' + '6a5400948b3b376';
+
+                console.log('uploading');
+                $.ajax({
+                    url: 'https://api.imgur.com/3/image',
+                    type: 'POST',
+                    headers: {
+                        Authorization: auth,
+                        Accept: 'application/json'
+                    },
+                    data: {
+                        image: localStorage.dataBase64,
+                        type: 'base64'
+                    },
+                    success: function (result) {
+                        var id = result.data.id;
+                        window.location = 'https://imgur.com/gallery/' + id;
+                        console.log('id', id);
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
             });
 
             return gif;
