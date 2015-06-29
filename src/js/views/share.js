@@ -23,9 +23,10 @@ export default class extends View {
 
         var _this = this;
         _this.listenTo(_this.model, 'change', function() {
-            if (_this.model.hasChanged('url')) {
+            if (this.model.hasChanged('url')) {
                 _this.render();
             } else {
+                $('.url-btn').removeClass('hide');
                 _this.$('.sharer').html('');
             }
         });
@@ -39,8 +40,10 @@ export default class extends View {
     }
 
     render() {
+        this.$('.sharer').html('');
         this.$('.sharer').html(this.template(this.model.attributes));
         this.postRender();
+        this.hideLoading();
     }
 
     showShare() {
@@ -64,10 +67,19 @@ export default class extends View {
 
     }
 
+    showLoading() {
+        $('.spinner').removeClass('hide');
+        $('.url-btn').addClass('hide');
+    }
+
+    hideLoading() {
+        $('.spinner').addClass('hide');
+    }
+
     upload() {
-        this.model.set('url', Math.random(10));
-        // let auth = 'Client-ID ' + '657bcd07877548f';
-        // let _this = this;
+        let auth = 'Client-ID ' + '657bcd07877548f';
+        let _this = this;
+        _this.showLoading();
 
         // $.ajax({
         //     url: 'https://api.imgur.com/3/image',

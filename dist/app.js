@@ -300,9 +300,10 @@
 
             var _this = this;
             _this.listenTo(_this.model, 'change', function () {
-                if (_this.model.hasChanged('url')) {
+                if (this.model.hasChanged('url')) {
                     _this.render();
                 } else {
+                    $('.url-btn').removeClass('hide');
                     _this.$('.sharer').html('');
                 }
             });
@@ -321,8 +322,10 @@
         }, {
             key: 'render',
             value: function render() {
+                this.$('.sharer').html('');
                 this.$('.sharer').html(this.template(this.model.attributes));
                 this.postRender();
+                this.hideLoading();
             }
         }, {
             key: 'showShare',
@@ -345,11 +348,22 @@
             key: 'hideLoading',
             value: function hideLoading() {}
         }, {
+            key: 'showLoading',
+            value: function showLoading() {
+                $('.spinner').removeClass('hide');
+                $('.url-btn').addClass('hide');
+            }
+        }, {
+            key: 'hideLoading',
+            value: function hideLoading() {
+                $('.spinner').addClass('hide');
+            }
+        }, {
             key: 'upload',
             value: function upload() {
-                this.model.set('url', Math.random(10));
-                // let auth = 'Client-ID ' + '657bcd07877548f';
-                // let _this = this;
+                var auth = 'Client-ID ' + '657bcd07877548f';
+                var _this = this;
+                _this.showLoading();
 
                 // $.ajax({
                 //     url: 'https://api.imgur.com/3/image',
