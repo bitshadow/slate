@@ -6,12 +6,14 @@ export default class extends View {
         super(options);
 
         this.listenTo(this.model, 'change', this.render);
-        // this.render();
     }
 
     render() {
         slate.setProperties(this.model.toJSON());
-        // use callback here;
-        slate.render(document.getElementById('result'));
+        slate.render(function(err, data) {
+            var element = document.getElementById('result');
+            element.src = 'data:image/gif;base64,' + data;
+            localStorage.dataBase64 = data;
+        });
     }
 }

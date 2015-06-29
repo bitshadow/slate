@@ -7,8 +7,8 @@ export default class extends Model{
             textColor: '#fff',
             font: 'Georgia, serif',
             text: 'Generate your text here',
-            width: 540,
-            height: 540,
+            width: 400,
+            height: 400,
             fontHeight: 50,
             delay: 250
         }

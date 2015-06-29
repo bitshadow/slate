@@ -1,8 +1,8 @@
-(function (factory) {
-    !(typeof exports === 'object' && typeof module !== 'undefined') &&
-    typeof define === 'function' && define.amd ? define(factory) :
-    factory()
-}(function () { 'use strict';
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('config/share')) :
+    typeof define === 'function' && define.amd ? define(['config/share'], factory) :
+    factory(global.config)
+}(this, function (config) { 'use strict';
 
     var SlateModel___createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -32,8 +32,8 @@
                     textColor: '#fff',
                     font: 'Georgia, serif',
                     text: 'Generate your text here',
-                    width: 540,
-                    height: 540,
+                    width: 400,
+                    height: 400,
                     fontHeight: 50,
                     delay: 250
                 };
@@ -215,7 +215,7 @@
             gif.render();
         },
 
-        getGifCreator: function (element) {
+        getGifCreator: function (callback) {
             var _this = this;
             var gif = new GIF({
                 workers: 2,
@@ -226,31 +226,7 @@
 
             gif.on('finished', function (blob, data) {
                 var obj = btoa(String.fromCharCode.apply(null, data));
-                localStorage.dataBase64 = obj;
-                element.src = 'data:image/gif;base64,' + obj;
-                var auth = 'Client-ID ' + '6a5400948b3b376';
-
-                console.log('uploading');
-                $.ajax({
-                    url: 'https://api.imgur.com/3/image',
-                    type: 'POST',
-                    headers: {
-                        Authorization: auth,
-                        Accept: 'application/json'
-                    },
-                    data: {
-                        image: localStorage.dataBase64,
-                        type: 'base64'
-                    },
-                    success: function (result) {
-                        var id = result.data.id;
-                        window.location = 'https://imgur.com/gallery/' + id;
-                        console.log('id', id);
-                    },
-                    error: function (e) {
-                        console.log(e);
-                    }
-                });
+                callback(null, obj);
             });
 
             return gif;
@@ -275,7 +251,6 @@
             SlateView___get(Object.getPrototypeOf(_class.prototype), 'constructor', this).call(this, options);
 
             this.listenTo(this.model, 'change', this.render);
-            // this.render();
         };
 
         SlateView___inherits(_class, _View);
@@ -284,8 +259,11 @@
             key: 'render',
             value: function render() {
                 slate.setProperties(this.model.toJSON());
-                // use callback here;
-                slate.render(document.getElementById('result'));
+                slate.render(function (err, data) {
+                    var element = document.getElementById('result');
+                    element.src = 'data:image/gif;base64,' + data;
+                    localStorage.dataBase64 = data;
+                });
             }
         }]);
 
@@ -294,32 +272,160 @@
 
     var SlateView = SlateView___default;
 
+    var ShareView___createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+    var ShareView___get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return ShareView__get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+    function ShareView___classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+    function ShareView___inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+    var ShareView___Backbone = Backbone;
+    var ShareView__View = ShareView___Backbone.View;
+
+    // this is small template so we can use it here.
+    var shareTemplate = '     <input class="url" value="<%= url %>"></input>     <div class="share-btn">Share Me</div> ';
+
+    var ShareView___default = (function (_View) {
+        var _class = function _default(options) {
+            ShareView___classCallCheck(this, _class);
+
+            _.defaults(options, {
+                events: {
+                    'click .get-url': 'upload'
+                }
+            });
+
+            ShareView___get(Object.getPrototypeOf(_class.prototype), 'constructor', this).call(this, options);
+
+            var _this = this;
+            _this.listenTo(_this.model, 'change', function () {
+                if (_this.model.hasChanged('url')) {
+                    _this.render();
+                } else {
+                    _this.$('.sharer').html('');
+                }
+            });
+
+            _this.template = _.template(shareTemplate);
+        };
+
+        ShareView___inherits(_class, _View);
+
+        ShareView___createClass(_class, [{
+            key: 'postRender',
+            value: function postRender() {
+                this.$('.url').get(0).select();
+                this.showShare();
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                this.$('.sharer').html(this.template(this.model.attributes));
+                this.postRender();
+            }
+        }, {
+            key: 'showShare',
+            value: function showShare() {
+                this.$('.share-btn').hideshare({
+                    link: 'http://natearnold.me/hideshare/example',
+                    media: 'http://farm7.staticflickr.com/6213/6243090894_8b8dd862cd.jpg',
+                    position: 'bottom',
+                    linkedin: false
+                });
+
+                // config.url = 'https//www.google.com';
+                // config.protocol = 'https';
+                // var share = new Share(".share-button", config);
+            }
+        }, {
+            key: 'showLoading',
+            value: function showLoading() {}
+        }, {
+            key: 'hideLoading',
+            value: function hideLoading() {}
+        }, {
+            key: 'upload',
+            value: function upload() {
+                this.model.set('url', Math.random(10));
+                // let auth = 'Client-ID ' + '657bcd07877548f';
+                // let _this = this;
+
+                // $.ajax({
+                //     url: 'https://api.imgur.com/3/image',
+                //     type: 'POST',
+                //     headers: {
+                //         Authorization: auth,
+                //         Accept: 'application/json'
+                //     },
+                //     data: {
+                //         image: localStorage.dataBase64,
+                //         type: 'base64'
+                //     },
+                //     success: function(result) {
+                //         let id = result.data.id;
+                //         _this.model.set('url', 'https://i.imgur.com/' + id);
+                //         console.log('image upload with this id', id);
+                //         // todo show box with sharing options
+                //         // window.location = 'https://imgur.com/gallery/' + id;
+                //     },
+                //     error: function(e) {
+                //         console.log(e);
+                //     }
+                // });
+            }
+        }]);
+
+        return _class;
+    })(ShareView__View);
+
+    var ShareView = ShareView___default;
+
     var app___createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+    var app___get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return app__get(parent, property, receiver); } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
     function app___classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    var SlateApp = (function () {
-        function SlateApp() {
+    function app___inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+    var app___Backbone = Backbone;
+    var app__View = app___Backbone.View;
+
+    var SlateApp = (function (_View) {
+        function SlateApp(options) {
             app___classCallCheck(this, SlateApp);
+
+            app___get(Object.getPrototypeOf(SlateApp.prototype), 'constructor', this).call(this, options);
+            var model = new SlateModel();
+            this.slateConfigView = new SlateConfigView({
+                model: model,
+                el: $('.slate__config')
+            });
+
+            this.slateView = new SlateView({
+                model: model,
+                el: $('.slate__preview')
+            });
+
+            this.shareView = new ShareView({
+                model: model,
+                el: $('.share-box')
+            });
         }
+
+        app___inherits(SlateApp, _View);
 
         app___createClass(SlateApp, [{
             key: 'render',
             value: function render() {
-                var model = new SlateModel();
-                new SlateConfigView({
-                    model: model,
-                    el: $('.slate__config')
-                });
-                new SlateView({
-                    model: model,
-                    el: $('.slate__preview')
-                });
+                this.slateConfigView.render();
+                this.slateView.render();
             }
         }]);
 
         return SlateApp;
-    })();
+    })(app__View);
 
     new SlateApp().render();
 

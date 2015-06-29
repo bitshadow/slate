@@ -8,9 +8,11 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine"> -->
+        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
         <link rel="stylesheet" href='src/css/app.css'>
     </head>
     <body>
+        <!-- We are using backbone but its fine to keep elements here. -->
         <div class="slate site__content">
             <div class="slate__config">
                 <div class="site__logo">
@@ -42,7 +44,13 @@
                 </ol>
             </div>
             <div class="slate__preview">
-                <img id="result"></img>
+                <div class="output">
+                    <img id="result"></img>
+                </div>
+                <div class="share-box">
+                    <a class="url-btn get-url" href="#">Get Url</a>
+                    <div class="sharer"></div>
+                </div>
             </div>
         </div>
 
@@ -55,6 +63,7 @@
         <script src="bower_components/underscore/underscore.js"></script>
         <script src="bower_components/backbone/backbone.js"></script>
         <script src="bower_components/JSColor/jscolor.js"></script>
+        <script src="lib/share.js"></script>
         <script src="dist/app.js"></script>
     </body>
 </html>

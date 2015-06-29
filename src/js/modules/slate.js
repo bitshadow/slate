@@ -87,7 +87,7 @@ export default {
             gif.render();
         },
 
-        getGifCreator(element) {
+        getGifCreator(callback) {
             let _this = this;
             let gif = new GIF({
                 workers: 2,
@@ -98,8 +98,7 @@ export default {
 
             gif.on('finished', function(blob, data) {
                 let obj = btoa(String.fromCharCode.apply(null, data));
-                localStorage.dataBase64 = obj;
-                element.src = 'data:image/gif;base64,' + obj;
+                callback(null, obj);
             });
 
             return gif;

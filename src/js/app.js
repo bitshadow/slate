@@ -1,44 +1,34 @@
 import SlateModel from './models/slate.js';
 import SlateConfigView from './views/slateConfig.js';
 import SlateView from './views/slate.js';
+import ShareView from './views/share.js';
 
-class SlateApp {
-  render() {
-    let model = new SlateModel();
-    new SlateConfigView({
-        model: model,
-        el: $('.slate__config')
-    });
-    new SlateView({
-        model: model,
-        el: $('.slate__preview')
-    });
-  }
+let { View } = Backbone;
 
-  upload() {
-    var auth = 'Client-ID ' + '657bcd07877548f';
+class SlateApp extends View {
+    constructor(options) {
+        super(options);
+        let model = new SlateModel();
+        this.slateConfigView = new SlateConfigView({
+            model: model,
+            el: $('.slate__config')
+        });
 
-    $.ajax({
-        url: 'https://api.imgur.com/3/image',
-        type: 'POST',
-        headers: {
-            Authorization: auth,
-            Accept: 'application/json'
-        },
-        data: {
-            image: localStorage.dataBase64,
-            type: 'base64'
-        },
-        success: function(result) {
-            var id = result.data.id;
-            // todo show box with sharing options
-            // window.location = 'https://imgur.com/gallery/' + id;
-        },
-        error: function(e) {
-            console.log(e);
-        }
-    });
-  }
+        this.slateView = new SlateView({
+            model: model,
+            el: $('.slate__preview')
+        });
+
+        this.shareView = new ShareView({
+            model: model,
+            el: $('.share-box')
+        });
+    }
+
+    render() {
+        this.slateConfigView.render();
+        this.slateView.render();
+    }
 }
 
 (new SlateApp()).render()

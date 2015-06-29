@@ -12,7 +12,8 @@
 input,
 select,
 button,
-textarea {
+textarea,
+button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -32,21 +33,25 @@ ol {
     list-style-type: none;
 }
 
-input {
+input,
+button {
     font-size: 16px;
-    border: 1px solid #777;
+    border: 1px solid #382B2B;
     border-radius: 5px;
     padding: 10px;
     outline: none;
     -webkit-background-clip: padding-box;
 }
 
-
+input {
+    color: #333;
+}
 /* slate */
+
 a {
     text-decoration: none;
     cursor: pointer;
-    color: #78CEC5;
+    color: #fff;
 }
 
 #result {
@@ -59,32 +64,21 @@ body {
     display: inline-block;
     vertical-align: middle;
     margin: 0 auto;
-    color: #222;
-    font-family: 'Tangerine';
+    color: #dedede;
+    font-family: sans-serif;
     width: 100%;
     height: 100%;
-    /*background: #8A9199;*/
+    background: #232323;
 }
 
 .site__logo {
-    color: #78CEC5;
     cursor: default;
     text-align: center;
-}
-
-.generate:hover {
-    cursor: pointer;
-    background-color: #eee;
 }
 
 .site__content {
     width: 800px;
     margin: 100px auto 0;
-}
-
-
-.text-box__button:active {
-    background-color: #ddd;
 }
 
 .slate__config {
@@ -94,12 +88,11 @@ body {
 
 .slate__preview {
     width: 400px;
-    height: 415px;
     float: right;
     border-radius: 5px;
 }
 
-.slate__config ul{
+.slate__config ul {
     margin-top: 50px;
 }
 
@@ -124,4 +117,56 @@ body {
 .slate__config .height {
     width: 70px;
     text-align: right;
+}
+
+.url-btn,
+.share-btn {
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    background: #dedede;
+    color: #232323;
+    border-radius: 6px;
+    padding: 15px 15px;
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.url-btn:hover {
+    background-color: #fff;
+}
+
+.url {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.hideshare-wrap {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.hideshare-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+.hideshare-list li {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    margin: 2px 3px;
+}
+
+.hideshare-wrap span {
+    display: none;
 }
