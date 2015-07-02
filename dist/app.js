@@ -34,8 +34,8 @@
                     text: 'Generate your text here',
                     width: 400,
                     height: 400,
-                    fontHeight: 50,
-                    delay: 250
+                    fontHeight: 35,
+                    delay: 200
                 };
             }
         }]);
@@ -66,7 +66,8 @@
                     'change .bg-color': 'setBgColor',
                     'keyup .height': 'setFontHeight',
                     'keyup .text': 'setText',
-                    'keyup .delay': 'setDelay'
+                    'keyup .delay': 'setDelay',
+                    'keyup .family': 'setFontFamily'
                 }
             });
 
@@ -112,6 +113,11 @@
             key: 'setBgColor',
             value: function setBgColor(e) {
                 this.model.set({ bgColor: '#' + $(e.target).val() });
+            }
+        }, {
+            key: 'setFontFamily',
+            value: function setFontFamily(e) {
+                this.model.set({ font: $(e.target).val().trim() });
             }
         }, {
             key: 'setAttributes',
@@ -303,13 +309,13 @@
                 if (this.model.hasChanged('url')) {
                     _this.render();
                 } else {
+                    _this.render();
                     _this.hideLoading();
                     _this.model.unset('url');
                 }
             });
 
             _this.template = _.template(shareTemplate);
-            _this.render();
         };
 
         ShareView___inherits(_class, _View);
@@ -320,6 +326,7 @@
                 var url = this.model.get('url');
                 if (url) {
                     this.$('.url').get(0).select();
+                    this.$('.url-btn').addClass('hide');
                     this.showShare(url);
                 }
 
@@ -351,23 +358,21 @@
             key: 'showLoading',
             value: function showLoading() {
                 $('.spinner').removeClass('hide');
-
                 this.$('.url-btn').addClass('hide');
             }
         }, {
             key: 'hideLoading',
             value: function hideLoading() {
                 $('.spinner').addClass('hide');
-
-                this.$('.url-btn').removeClass('hide');
             }
         }, {
             key: 'upload',
             value: function upload() {
-                var auth = 'Client-ID ' + 'f0972432933fc36';
-                var _this = this;
-
                 this.showLoading();
+
+                var _this = this;
+                var auth = 'Client-ID ' + 'f0972432933fc36';
+
                 $.ajax({
                     url: 'https://api.imgur.com/3/image',
                     type: 'POST',

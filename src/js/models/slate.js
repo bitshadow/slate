@@ -9,8 +9,8 @@ export default class extends Model{
             text: 'Generate your text here',
             width: 400,
             height: 400,
-            fontHeight: 50,
-            delay: 250
+            fontHeight: 35,
+            delay: 200
         }
     }
 };

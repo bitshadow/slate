@@ -27,19 +27,20 @@ export default class extends View {
             if (this.model.hasChanged('url')) {
                 _this.render();
             } else {
+                _this.render();
                 _this.hideLoading();
                 _this.model.unset('url');
             }
         });
 
         _this.template = _.template(shareTemplate);
-        _this.render();
     }
 
     postRender() {
         let url = this.model.get('url');
         if (url) {
             this.$('.url').get(0).select();
+            this.$('.url-btn').addClass('hide');
             this.showShare(url)
         }
 
@@ -68,21 +69,19 @@ export default class extends View {
 
     showLoading() {
         $('.spinner').removeClass('hide');
-
         this.$('.url-btn').addClass('hide');
     }
 
     hideLoading() {
         $('.spinner').addClass('hide');
-
-        this.$('.url-btn').removeClass('hide');
     }
 
     upload() {
-        let auth = 'Client-ID ' + 'f0972432933fc36';
-        let _this = this;
-
         this.showLoading();
+
+        let _this = this;
+        let auth = 'Client-ID ' + 'f0972432933fc36';
+
         $.ajax({
             url: 'https://api.imgur.com/3/image',
             type: 'POST',

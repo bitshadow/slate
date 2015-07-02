@@ -8,7 +8,8 @@ export default class extends View {
                 'change .bg-color': 'setBgColor',
                 'keyup .height': 'setFontHeight',
                 'keyup .text': 'setText',
-                'keyup .delay': 'setDelay'
+                'keyup .delay': 'setDelay',
+                'keyup .family': 'setFontFamily'
             }
         });
 
@@ -44,6 +45,10 @@ export default class extends View {
 
     setBgColor(e) {
         this.model.set({ bgColor: '#' + $(e.target).val() });
+    }
+
+    setFontFamily(e) {
+        this.model.set({ font: $(e.target).val().trim()});
     }
 
     setAttributes(e) {

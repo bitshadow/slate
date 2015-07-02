@@ -7,7 +7,7 @@
         <title>Slate: Yet another meme generator</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine"> -->
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Terminal+Dosis:400,700">
         <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
         <link rel="stylesheet" href='src/css/app.css'>
     </head>
@@ -21,7 +21,11 @@
                 <ul>
                     <li>
                         <label for='text'>Text:</label>
-                        <input id="text" class="text" type="text" name="text" value="" placeholder="Enter Your Text Here">
+                        <input id="text" class="text long" type="text" name="text" value="" placeholder="Enter Your Text Here">
+                    </li>
+                    <li>
+                        <label for='family'>Font Family:</label>
+                        <input id="family" class="family long" type="text" name="fontFamily" value="Georgia, Sarif" placeholder="">
                     </li>
                     <li>
                         <label for='text-color'>Color:</label>
@@ -33,12 +37,12 @@
                     </li>
                     <li>
                         <label for='delay'>Frame Delay:</label>
-                        <input id="delay" class="delay" type="text" name="delay" value="250" placeholder="">
+                        <input id="delay" class="delay" type="text" name="delay" value="200" placeholder="">
                         <span class='unit'>ms</span>
                     </li>
                     <li>
                         <label for='height'>Font Height:</label>
-                        <input id="height" class="height" type="text" name="fontHeight" value="50" placeholder="">
+                        <input id="height" class="height" type="text" name="fontHeight" value="35" placeholder="">
                         <span class='unit'>px</span>
                     </li>
                 </ol>
