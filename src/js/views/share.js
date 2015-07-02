@@ -8,7 +8,7 @@ let shareTemplate = ' \
     <a class="url-btn get-url" href="#">Get Url</a> \
     <% if (model.url) { %>  \
         <input class="url" value="<%= model.url %>"></input> \
-        <div class="share-btn">Share Me</div> \
+        <div class="share-btn"><i class="fa fa-share-alt"></i></div> \
     <% } %> \
 ';
 
@@ -62,8 +62,9 @@ export default class extends View {
         this.$('.share-btn').hideshare({
             link: url,
             media: url + '.gif',
-            position: "bottom",
-            linkedin: false
+            position: 'right',
+            linkedin: false,
+            title: this.model.get('text')
         });
     }
 
@@ -78,7 +79,6 @@ export default class extends View {
 
     upload() {
         this.showLoading();
-
         let _this = this;
         let auth = 'Client-ID ' + 'f0972432933fc36';
 

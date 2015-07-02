@@ -35,16 +35,16 @@ ol {
 
 input,
 button {
-    font-size: 16px;
+    font-size: 15px;
     border: 1px solid #414141;
     border-radius: 5px;
-    padding: 10px;
+    padding: 8px;
     outline: none;
     -webkit-background-clip: padding-box;
 }
 
 input {
-    color: #333;
+    color: #000;
 }
 /* slate */
 
@@ -55,10 +55,12 @@ a {
 }
 
 #result {
-    width: 400px;
+    width: 360px;
     height: 400px;
-    border: 1px solid #414141;
     background-color: rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0px 0px 0px 10px rgba(50, 50, 51, 1);
+    -moz-box-shadow:    0px 0px 0px 10px rgba(50, 50, 51, 1);
+    box-shadow:         0px 0px 0px 10px rgba(50, 50, 51, 1);
 }
 
 body {
@@ -74,24 +76,27 @@ body {
 
 .site__logo {
     text-align: center;
+    padding: 20px 0;
+    color: #fff;
 }
 
 .site__title {
-    font-size: 70px;
+    font-size: 64px;
+    text-shadow: 0 8px 6px #000;
 }
 
 .site__content {
-    width: 800px;
-    margin: 10px auto 0;
+    width: 720px;
+    margin: 9px auto 0;
 }
 
 .slate__config {
-    width: 400px;
+    width: 360px;
     float: left;
 }
 
 .slate__preview {
-    width: 400px;
+    width: 360px;
     float: right;
     border-radius: 5px;
 }
@@ -102,12 +107,13 @@ body {
 
 .slate__config label {
     display: inline-block;
-    width: 90px;
-    font-size: 16px;
+    width: 82px;
+    font-size: 15px;
+    text-shadow: 0 2px 6px #000;
 }
 
 .slate__config li {
-    margin-bottom: 15px;
+    margin-bottom: 26px;
 }
 
 .slate__config ul {
@@ -120,28 +126,39 @@ body {
     text-align: right;
 }
 
+.share-box {
+  margin-top: 10px;
+}
+
 .url-btn,
 .share-btn {
     cursor: pointer;
     display: block;
-    margin: 0 auto;
-    width: 100%;
     background: #dedede;
     color: #232323;
-    border-radius: 10px;
-    padding: 15px 15px;
+    border-radius: 5px;
+    padding: 8px 15px;
     text-align: center;
     font-weight: 700;
     text-transform: uppercase;
+}
+
+.share-btn {
+  display: inline-block;
+  width: 46px;
 }
 
 .url-btn:hover, .share-btn:hover {
     background-color: #fff;
 }
 
+.url-btn:active, .share-btn:active {
+    background-color: #aaa;
+}
+
 .url {
-    width: 100%;
-    margin: 20px 0;
+    width: 310px;
+    margin: 0 0 8px;
     font-weight: bold;
 }
 
@@ -149,6 +166,7 @@ body {
     position: relative;
     margin: 0 auto;
     width: 100%;
+    display: inline-block;
 }
 
 .hideshare-list {
@@ -182,7 +200,7 @@ body {
 }
 
 .long {
-    width: 250px;
+    width: 225px;
 }
 
 /**

@@ -290,7 +290,7 @@
     var ShareView__View = ShareView___Backbone.View;
 
     // this is small template so we can use it here.
-    var shareTemplate = '     <a class="url-btn get-url" href="#">Get Url</a>     <% if (model.url) { %>          <input class="url" value="<%= model.url %>"></input>         <div class="share-btn">Share Me</div>     <% } %> ';
+    var shareTemplate = '     <a class="url-btn get-url" href="#">Get Url</a>     <% if (model.url) { %>          <input class="url" value="<%= model.url %>"></input>         <div class="share-btn"><i class="fa fa-share-alt"></i></div>     <% } %> ';
 
     var ShareView___default = (function (_View) {
         var _class = function _default(options) {
@@ -350,8 +350,9 @@
                 this.$('.share-btn').hideshare({
                     link: url,
                     media: url + '.gif',
-                    position: 'bottom',
-                    linkedin: false
+                    position: 'right',
+                    linkedin: false,
+                    title: this.model.get('text')
                 });
             }
         }, {
@@ -369,7 +370,6 @@
             key: 'upload',
             value: function upload() {
                 this.showLoading();
-
                 var _this = this;
                 var auth = 'Client-ID ' + 'f0972432933fc36';
 
