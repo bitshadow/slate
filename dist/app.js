@@ -35,7 +35,7 @@
                     width: 400,
                     height: 400,
                     fontHeight: 35,
-                    delay: 200
+                    delay: 250
                 };
             }
         }]);
