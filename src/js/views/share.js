@@ -23,8 +23,8 @@ export default class extends View {
         super(options);
 
         let _this = this;
-        _this.listenTo(_this.model, 'change', function() {
-            if (this.model.hasChanged('url')) {
+        _this.listenTo(_this.model, 'change', () => {
+            if (_this.model.hasChanged('url')) {
                 _this.render();
             } else {
                 _this.render();
@@ -93,12 +93,12 @@ export default class extends View {
                 image: localStorage.dataBase64,
                 type: 'base64'
             },
-            success: function(result) {
+            success(result) {
                 let id = result.data.id;
                 _this.model.set('url', 'https://i.imgur.com/' + id + '.gif');
                 console.log('image upload with this id', id);
             },
-            error: function(e) {
+            error(e) {
                 console.log(e);
             }
         });

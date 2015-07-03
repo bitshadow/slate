@@ -96,7 +96,7 @@ export default {
                 height: _this.height
             });
 
-            gif.on('finished', function(blob, data) {
+            gif.on('finished', (blob, data) => {
                 let obj = btoa(String.fromCharCode.apply(null, data));
                 callback(null, obj);
             });

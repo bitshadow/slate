@@ -30,8 +30,8 @@
                 return {
                     bgColor: '#018790',
                     textColor: '#fff',
-                    font: 'Georgia, serif',
-                    text: 'Generate your text here',
+                    font: 'Arial',
+                    text: 'I am AWESOME!',
                     width: 400,
                     height: 400,
                     fontHeight: 35,
@@ -44,6 +44,62 @@
     })(Model);
 
     var SlateModel = SlateModel___default;;
+
+    var fonts = ['Arial', 'Arial Black', 'Arial Narrow', 'Arial Rounded MT Bold', 'Avant Garde', 'Calibri', 'Candara', 'Century Gothic', 'Franklin Gothic Medium', 'Futura', 'Geneva', 'Gill Sans', 'Helvetica', 'Impact', 'Lucida Grande', 'Optima', 'Segoe UI', 'Tahoma', 'Trebuchet MS', 'Verdana', 'Big Caslon', 'Bodoni MT', 'Book Antiqua', 'Calisto MT', 'Cambria', 'Didot', 'Garamond', 'Georgia', 'Goudy Old Style', 'Hoefler Text', 'Lucida Bright', 'Palatino', 'Perpetua', 'Rockwell', 'Rockwell Extra Bold', 'Baskerville', 'Times New Roman', 'Consolas', 'Courier New', 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Andale Mono', 'Copperplate', 'Papyrus', 'Brush Script MT'];
+
+    function Detector() {
+        // a font will be compared against all the three default fonts.
+        // and if it doesn't match all 3 then that font is not available.
+        var baseFonts = ['monospace', 'sans-serif', 'serif'];
+
+        //we use m or w because these two characters take up the maximum width.
+        // And we use a LLi so that the same matching fonts can get separated
+        var testString = 'mmmmmmmmmmlli';
+
+        //we test using 72px font size, we may use any size. I guess larger the better.
+        var testSize = '72px';
+
+        var h = document.getElementsByTagName('body')[0];
+
+        // create a SPAN in the document to get the width of the text we use to test
+        var s = document.createElement('span');
+        s.style.fontSize = testSize;
+        s.innerHTML = testString;
+        var defaultWidth = {};
+        var defaultHeight = {};
+        for (var index in baseFonts) {
+            //get the default width for the three base fonts
+            s.style.fontFamily = baseFonts[index];
+            h.appendChild(s);
+            defaultWidth[baseFonts[index]] = s.offsetWidth; //width for the default font
+            defaultHeight[baseFonts[index]] = s.offsetHeight; //height for the defualt font
+            h.removeChild(s);
+        }
+
+        var detect = function (font) {
+            var detected = false;
+            for (var index in baseFonts) {
+                s.style.fontFamily = font + ',' + baseFonts[index]; // name of the font along with the base font for fallback.
+                h.appendChild(s);
+                var matched = s.offsetWidth != defaultWidth[baseFonts[index]] || s.offsetHeight != defaultHeight[baseFonts[index]];
+                h.removeChild(s);
+                detected = detected || matched;
+            }
+            return detected;
+        };
+
+        this.detect = detect;
+    };
+
+    var d = new Detector();
+    var supportedFonts = [];
+    fonts.forEach(function (font) {
+        if (d.detect(font)) {
+            supportedFonts.push(font);
+        }
+    });
+
+    var modules_fonts = supportedFonts;
 
     var SlateConfigView___createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -67,13 +123,13 @@
                     'keyup .height': 'setFontHeight',
                     'keyup .text': 'setText',
                     'keyup .delay': 'setDelay',
-                    'keyup .family': 'setFontFamily'
+                    'change .family': 'setFontFamily'
                 }
             });
 
             SlateConfigView___get(Object.getPrototypeOf(_class.prototype), 'constructor', this).call(this, options);
-            this.$('.text-color').val(this.model.get('textColor'));
-            this.$('.bg-color').val(this.model.get('bgColor'));
+            this.fonts = modules_fonts;
+            this.template = _.template($('script.slate-config').html());
         };
 
         SlateConfigView___inherits(_class, _View);
@@ -82,6 +138,24 @@
             key: 'initialize',
             value: function initialize() {
                 this._setDebouncedText = _.debounce(_.bind(this.setDebouncedText, this), 300);
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                this.$el.append(this.template({ model: this.model.attributes }));
+                this.postRender();
+            }
+        }, {
+            key: 'postRender',
+            value: function postRender() {
+                var select = this.$('.family');
+
+                this.fonts.forEach(function (font) {
+                    select.append('<option val="' + font + '">' + font + '</option>');
+                });
+
+                this.$('.text-color').val(this.model.get('textColor'));
+                this.$('.bg-color').val(this.model.get('bgColor'));
             }
         }, {
             key: 'setDebouncedText',
@@ -306,7 +380,7 @@
 
             var _this = this;
             _this.listenTo(_this.model, 'change', function () {
-                if (this.model.hasChanged('url')) {
+                if (_this.model.hasChanged('url')) {
                     _this.render();
                 } else {
                     _this.render();

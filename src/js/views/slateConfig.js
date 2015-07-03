@@ -1,3 +1,5 @@
+import fonts from '../modules/fonts';
+
 let { View } = Backbone;
 
 export default class extends View {
@@ -9,17 +11,33 @@ export default class extends View {
                 'keyup .height': 'setFontHeight',
                 'keyup .text': 'setText',
                 'keyup .delay': 'setDelay',
-                'keyup .family': 'setFontFamily'
+                'change .family': 'setFontFamily'
             }
         });
 
         super(options);
-        this.$('.text-color').val(this.model.get('textColor'));
-        this.$('.bg-color').val(this.model.get('bgColor'))
+        this.fonts = fonts;
+        this.template = _.template($('script.slate-config').html());
     }
 
     initialize() {
         this._setDebouncedText = _.debounce(_.bind(this.setDebouncedText, this), 300);
+    }
+
+    render() {
+        this.$el.append(this.template({ model: this.model.attributes }));
+        this.postRender();
+    }
+
+    postRender() {
+        let select = this.$('.family');
+
+        this.fonts.forEach((font) => {
+            select.append('<option val="' + font + '">' + font + '</option>');
+        });
+
+        this.$('.text-color').val(this.model.get('textColor'));
+        this.$('.bg-color').val(this.model.get('bgColor'))
     }
 
     setDebouncedText(text) {

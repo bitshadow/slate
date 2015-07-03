@@ -5,8 +5,8 @@ export default class extends Model{
         return {
             bgColor: '#018790',
             textColor: '#fff',
-            font: 'Georgia, serif',
-            text: 'Generate your text here',
+            font: 'Arial',
+            text: 'I am AWESOME!',
             width: 400,
             height: 400,
             fontHeight: 35,

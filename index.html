@@ -18,37 +18,41 @@
                 <h1 class="site__title">Slate</h1>
             </div>
         </header>
+
+        <script type="text/template" class="slate-config">
+            <ul>
+                <li>
+                    <label for='text'>Text:</label>
+                    <input id="text" class="text long" type="text" name="text" value="" placeholder="Enter Your Text Here">
+                </li>
+                <li>
+                    <label for='family'>Font:</label>
+                    <select id='family' class='dropdown long family' name="fontFamily"></select>
+                    <!-- <input id="family" class="family long" type="text" name="fontFamily" value="Georgia, Sarif" placeholder=""> -->
+                </li>
+                <li>
+                    <label for='text-color'>Color:</label>
+                    <input id="text-color" class="color text-color" type="text" name="textColor" value="" placeholder="">
+                </li>
+                <li>
+                    <label for='bg-color'>Background:</label>
+                    <input id="bg-color" class="color bg-color" type="text" name="bgColor" value="" placeholder="">
+                </li>
+                <li>
+                    <label for='delay'>Frame Delay:</label>
+                    <input id="delay" class="delay" type="text" name="delay" value="200" placeholder="">
+                    <span class='unit'>ms</span>
+                </li>
+                <li>
+                    <label for='height'>Font Height:</label>
+                    <input id="height" class="height" type="text" name="fontHeight" value="35" placeholder="">
+                    <span class='unit'>px</span>
+                </li>
+            </ol>
+        </script>
+
         <div class="slate site__content">
-            <div class="slate__config">
-                <ul>
-                    <li>
-                        <label for='text'>Text:</label>
-                        <input id="text" class="text long" type="text" name="text" value="" placeholder="Enter Your Text Here">
-                    </li>
-                    <li>
-                        <label for='family'>Font Family:</label>
-                        <input id="family" class="family long" type="text" name="fontFamily" value="Georgia, Sarif" placeholder="">
-                    </li>
-                    <li>
-                        <label for='text-color'>Color:</label>
-                        <input id="text-color" class="color text-color" type="text" name="textColor" value="" placeholder="">
-                    </li>
-                    <li>
-                        <label for='bg-color'>Background:</label>
-                        <input id="bg-color" class="color bg-color" type="text" name="bgColor" value="" placeholder="">
-                    </li>
-                    <li>
-                        <label for='delay'>Frame Delay:</label>
-                        <input id="delay" class="delay" type="text" name="delay" value="200" placeholder="">
-                        <span class='unit'>ms</span>
-                    </li>
-                    <li>
-                        <label for='height'>Font Height:</label>
-                        <input id="height" class="height" type="text" name="fontHeight" value="35" placeholder="">
-                        <span class='unit'>px</span>
-                    </li>
-                </ol>
-            </div>
+            <div class="slate__config"></div>
             <div class="slate__preview">
                 <div class="output">
                     <img id="result"></img>
@@ -67,6 +71,11 @@
         </div>
 
         <footer class="site__footer">
+        <div class='note'>
+            <small>* Inspired from <a target="_blank" href="http://twitter.com/twholman">@twholmanx</a>'s <a target="_blank" href="http://quickestquotes.tumblr.com/">Quickest Quotes</a>.</small>
+            <hr />
+            <div class='footer-text'>By <a href='https://twitter.com/bitshadow'>Jignesh Kakadiya</a> • <a href='https://github.com/bitshadow/slate'>Source</a> • <a href="https://twitter.com/share?text=Slate: Cool text meme generator&hashtags=js,css&url=http://bitshadow.github.io/slate&via=bitshadow">Tweet</a> • Made with ES6</div>
+        </div>
         </footer>
 
         <script src="lib/gif.js"></script>

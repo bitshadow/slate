@@ -59,8 +59,8 @@ a {
     height: 400px;
     background-color: rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 0px 0px 0px 10px rgba(50, 50, 51, 1);
-    -moz-box-shadow:    0px 0px 0px 10px rgba(50, 50, 51, 1);
-    box-shadow:         0px 0px 0px 10px rgba(50, 50, 51, 1);
+    -moz-box-shadow: 0px 0px 0px 10px rgba(50, 50, 51, 1);
+    box-shadow: 0px 0px 0px 10px rgba(50, 50, 51, 1);
 }
 
 body {
@@ -80,6 +80,20 @@ body {
     color: #fff;
 }
 
+hr {
+    border: none;
+    height: 1px;
+    margin: 10px 400px;
+    background-image: -webkit-linear-gradient(left, #414141, #f0f0f0, #414141);
+    background-image: -moz-linear-gradient(left, #414141, #f0f0f0, #414141);
+    background-image: -ms-linear-gradient(left, #414141, #f0f0f0, #414141);
+    background-image: -o-linear-gradient(left, #414141, #f0f0f0, #414141);
+}
+
+small {
+    letter-spacing: 1px;
+}
+
 .site__title {
     font-size: 64px;
     text-shadow: 0 8px 6px #000;
@@ -88,6 +102,11 @@ body {
 .site__content {
     width: 720px;
     margin: 9px auto 0;
+    height: 480px;
+}
+
+footer {
+    text-align: center;
 }
 
 .slate__config {
@@ -108,7 +127,7 @@ body {
 .slate__config label {
     display: inline-block;
     width: 82px;
-    font-size: 15px;
+    font-size: 16px;
     text-shadow: 0 2px 6px #000;
 }
 
@@ -127,7 +146,15 @@ body {
 }
 
 .share-box {
-  margin-top: 10px;
+    margin-top: 10px;
+}
+
+.url-btn,
+.share-btn,
+.dropdown {
+    color: #232323;
+    padding: 8px 15px;
+    border-radius: 5px;
 }
 
 .url-btn,
@@ -136,23 +163,33 @@ body {
     display: block;
     background: #dedede;
     color: #232323;
-    border-radius: 5px;
-    padding: 8px 15px;
     text-align: center;
     font-weight: 700;
     text-transform: uppercase;
 }
 
-.share-btn {
-  display: inline-block;
-  width: 46px;
+.dropdown {
+    background-image: url('../img/down_arrow.png');
+    background-image: url('../img/down_arrow.svg?3'), none;
+    background-repeat: no-repeat;
+    background-size: 25px 20px;
+    background-position: right center;
+    background-color: #fff;
+    outline: none;
 }
 
-.url-btn:hover, .share-btn:hover {
+.share-btn {
+    display: inline-block;
+    width: 46px;
+}
+
+.url-btn:hover,
+.share-btn:hover {
     background-color: #fff;
 }
 
-.url-btn:active, .share-btn:active {
+.url-btn:active,
+.share-btn:active {
     background-color: #aaa;
 }
 
@@ -202,60 +239,64 @@ body {
 .long {
     width: 225px;
 }
-
 /**
  * Thanks to @tobiasahlin
  * for http://tobiasahlin.com/spinkit/
  */
+
 .spinner {
-  margin: 10px auto;
-  width: 50px;
-  height: 30px;
-  text-align: center;
-  font-size: 10px;
+    margin: 10px auto;
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    font-size: 10px;
 }
 
 .spinner > div {
-  background-color: #666666;
-  height: 100%;
-  width: 6px;
-  display: inline-block;
-
-  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
-  animation: stretchdelay 1.2s infinite ease-in-out;
+    background-color: #666666;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out;
 }
 
 .spinner .rect2 {
-  -webkit-animation-delay: -1.1s;
-  animation-delay: -1.1s;
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
 }
 
 .spinner .rect3 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
 }
 
 .spinner .rect4 {
-  -webkit-animation-delay: -0.9s;
-  animation-delay: -0.9s;
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
 }
 
 .spinner .rect5 {
-  -webkit-animation-delay: -0.8s;
-  animation-delay: -0.8s;
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
 }
 
 @-webkit-keyframes stretchdelay {
-  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
-  20% { -webkit-transform: scaleY(1.0) }
+    0%, 40%, 100% {
+        -webkit-transform: scaleY(0.4)
+    }
+    20% {
+        -webkit-transform: scaleY(1.0)
+    }
 }
 
 @keyframes stretchdelay {
-  0%, 40%, 100% { 
-    transform: scaleY(0.4);
-    -webkit-transform: scaleY(0.4);
-  }  20% { 
-    transform: scaleY(1.0);
-    -webkit-transform: scaleY(1.0);
-  }
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
 }
