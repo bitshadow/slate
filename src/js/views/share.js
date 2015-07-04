@@ -7,7 +7,7 @@ let { View } = Backbone;
 let shareTemplate = ' \
     <a class="url-btn get-url" href="#">Get Url</a> \
     <% if (model.url) { %>  \
-        <input class="url" value="<%= model.url %>"></input> \
+        <input class="url" value="<%= model.url + ".gif" %>"></input> \
         <div class="share-btn"><i class="fa fa-share-alt"></i></div> \
     <% } %> \
 ';
@@ -95,7 +95,7 @@ export default class extends View {
             },
             success(result) {
                 let id = result.data.id;
-                _this.model.set('url', 'https://i.imgur.com/' + id + '.gif');
+                _this.model.set('url', 'http://imgur.com/' + id);
                 console.log('image upload with this id', id);
             },
             error(e) {

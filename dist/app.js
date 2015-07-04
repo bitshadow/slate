@@ -71,15 +71,18 @@
             //get the default width for the three base fonts
             s.style.fontFamily = baseFonts[index];
             h.appendChild(s);
-            defaultWidth[baseFonts[index]] = s.offsetWidth; //width for the default font
-            defaultHeight[baseFonts[index]] = s.offsetHeight; //height for the defualt font
+            //width for the default font
+            defaultWidth[baseFonts[index]] = s.offsetWidth;
+            //height for the defualt font
+            defaultHeight[baseFonts[index]] = s.offsetHeight;
             h.removeChild(s);
         }
 
         var detect = function (font) {
             var detected = false;
             for (var index in baseFonts) {
-                s.style.fontFamily = font + ',' + baseFonts[index]; // name of the font along with the base font for fallback.
+                // name of the font along with the base font for fallback.
+                s.style.fontFamily = font + ',' + baseFonts[index];
                 h.appendChild(s);
                 var matched = s.offsetWidth != defaultWidth[baseFonts[index]] || s.offsetHeight != defaultHeight[baseFonts[index]];
                 h.removeChild(s);
@@ -364,7 +367,7 @@
     var ShareView__View = ShareView___Backbone.View;
 
     // this is small template so we can use it here.
-    var shareTemplate = '     <a class="url-btn get-url" href="#">Get Url</a>     <% if (model.url) { %>          <input class="url" value="<%= model.url %>"></input>         <div class="share-btn"><i class="fa fa-share-alt"></i></div>     <% } %> ';
+    var shareTemplate = '     <a class="url-btn get-url" href="#">Get Url</a>     <% if (model.url) { %>          <input class="url" value="<%= model.url + ".gif" %>"></input>         <div class="share-btn"><i class="fa fa-share-alt"></i></div>     <% } %> ';
 
     var ShareView___default = (function (_View) {
         var _class = function _default(options) {
@@ -460,7 +463,7 @@
                     },
                     success: function (result) {
                         var id = result.data.id;
-                        _this.model.set('url', 'https://i.imgur.com/' + id + '.gif');
+                        _this.model.set('url', 'http://imgur.com/' + id);
                         console.log('image upload with this id', id);
                     },
                     error: function (e) {
