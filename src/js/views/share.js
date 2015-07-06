@@ -81,7 +81,6 @@ export default class extends View {
         this.showLoading();
         let _this = this;
         let auth = 'Client-ID ' + 'f0972432933fc36';
-
         $.ajax({
             url: 'https://api.imgur.com/3/image',
             type: 'POST',

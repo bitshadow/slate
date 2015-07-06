@@ -11,8 +11,9 @@ export default class extends View {
     render() {
         slate.setProperties(this.model.toJSON());
         slate.render((err, data) => {
-            var element = document.getElementById('result');
-            element.src = 'data:image/gif;base64,' + data;
+            var element = $('#result');
+            element.removeClass('hide');
+            element.attr('src', 'data:image/gif;base64,' + data);
             localStorage.dataBase64 = data;
         });
     }

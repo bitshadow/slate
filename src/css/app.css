@@ -54,6 +54,10 @@ a {
     color: #fff;
 }
 
+a:hover {
+    border-bottom: 1px dotted #aaa;
+}
+
 #result {
     width: 360px;
     height: 400px;
@@ -83,7 +87,8 @@ body {
 hr {
     border: none;
     height: 1px;
-    margin: 10px 400px;
+    width: 430px;
+    margin: 5px auto;
     background-image: -webkit-linear-gradient(left, #414141, #f0f0f0, #414141);
     background-image: -moz-linear-gradient(left, #414141, #f0f0f0, #414141);
     background-image: -ms-linear-gradient(left, #414141, #f0f0f0, #414141);
@@ -103,6 +108,7 @@ small {
     width: 720px;
     margin: 9px auto 0;
     height: 480px;
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(150,150,150,0.5) 0%,rgba(150,150,150,0) 70%);
 }
 
 footer {
@@ -239,6 +245,11 @@ footer {
 .long {
     width: 225px;
 }
+
+.note {
+    color: #aaa;
+}
+
 /**
  * Thanks to @tobiasahlin
  * for http://tobiasahlin.com/spinkit/

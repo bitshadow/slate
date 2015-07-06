@@ -4,6 +4,10 @@
     factory(global.config)
 }(this, function (config) { 'use strict';
 
+    var colors = ['#B7D438', '#1C747F', '#4B687C', '#5CB932', '#EF7409', '#F3D063', '#31B98E', '#6AA398', '#D55A29', '#B32B54', '#FBB30D', '#621239', '#315873', '#C12E01', '#671C41', '#22A1FF', '#621239', '#6CC08E'];
+
+    var modules_colors = colors;
+
     var SlateModel___createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
     function SlateModel___classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
@@ -27,12 +31,14 @@
         SlateModel___createClass(_class, [{
             key: 'defaults',
             value: function defaults() {
+                var bgColor = modules_colors[Math.floor(Math.random() * modules_colors.length)];
+                console.log(bgColor);
                 return {
-                    bgColor: '#018790',
+                    bgColor: bgColor,
                     textColor: '#fff',
                     font: 'Arial',
-                    text: 'I am AWESOME!',
-                    width: 400,
+                    text: 'I am Awesome!',
+                    width: 360,
                     height: 400,
                     fontHeight: 35,
                     delay: 250
@@ -343,8 +349,9 @@
             value: function render() {
                 slate.setProperties(this.model.toJSON());
                 slate.render(function (err, data) {
-                    var element = document.getElementById('result');
-                    element.src = 'data:image/gif;base64,' + data;
+                    var element = $('#result');
+                    element.removeClass('hide');
+                    element.attr('src', 'data:image/gif;base64,' + data);
                     localStorage.dataBase64 = data;
                 });
             }
@@ -449,7 +456,6 @@
                 this.showLoading();
                 var _this = this;
                 var auth = 'Client-ID ' + 'f0972432933fc36';
-
                 $.ajax({
                     url: 'https://api.imgur.com/3/image',
                     type: 'POST',
