@@ -35,11 +35,10 @@ ol {
 
 input,
 button {
-    font-size: 15px;
-    border: 1px solid #414141;
+    font-size: 16px;
+    border: 1px solid #545454;
     border-radius: 5px;
-    padding: 8px;
-    outline: none;
+    padding: 7px;
     -webkit-background-clip: padding-box;
 }
 
@@ -109,6 +108,9 @@ small {
     margin: 9px auto 0;
     height: 480px;
     background: -webkit-radial-gradient(center, ellipse cover, rgba(150,150,150,0.5) 0%,rgba(150,150,150,0) 70%);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(150,150,150,0.5) 0%,rgba(150,150,150,0) 70%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(150,150,150,0.5) 0%,rgba(150,150,150,0) 70%);
+    background: radial-gradient(center, ellipse cover, rgba(150,150,150,0.5) 0%,rgba(150,150,150,0) 70%);
 }
 
 footer {
@@ -132,7 +134,7 @@ footer {
 
 .slate__config label {
     display: inline-block;
-    width: 82px;
+    width: 85px;
     font-size: 16px;
     text-shadow: 0 2px 6px #000;
 }
@@ -146,7 +148,7 @@ footer {
 }
 
 .slate__config .delay,
-.slate__config .height {
+.slate__config .font-height {
     width: 70px;
     text-align: right;
 }
@@ -161,6 +163,10 @@ footer {
     color: #232323;
     padding: 8px 15px;
     border-radius: 5px;
+}
+
+.dropdown {
+    padding: 6px 15px;
 }
 
 .url-btn,
@@ -181,7 +187,6 @@ footer {
     background-size: 25px 20px;
     background-position: right center;
     background-color: #fff;
-    outline: none;
 }
 
 .share-btn {
@@ -246,7 +251,7 @@ footer {
     width: 225px;
 }
 
-.note {
+.footer__note {
     color: #aaa;
 }
 

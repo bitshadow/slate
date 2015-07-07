@@ -4,7 +4,7 @@
     factory(global.config)
 }(this, function (config) { 'use strict';
 
-    var colors = ['#B7D438', '#1C747F', '#4B687C', '#5CB932', '#EF7409', '#F3D063', '#31B98E', '#6AA398', '#D55A29', '#B32B54', '#FBB30D', '#621239', '#315873', '#C12E01', '#671C41', '#22A1FF', '#621239', '#6CC08E'];
+    var colors = ['#B7D438', '#1C747F', '#4B687C', '#5CB932', '#EF7409', '#F3D063', '#31B98E', '#6AA398', '#D55A29', '#B32B54', '#FBB30D', '#621239', '#315873', '#C12E01', '#671C41', '#22A1FF', '#621239', '#6CC08E', '#3B8187', '#D3192F', '#80A000', '#F48200', '#000C3B', '#3B8187', '#BE1E2D', '#1A2728', '#5F8964', '#EA5F61', '#BA4938', '#185546', '#4667B2', '#74A187', '#F10043', '#EEA623', '#3B5C79'];
 
     var modules_colors = colors;
 
@@ -36,12 +36,13 @@
                 return {
                     bgColor: bgColor,
                     textColor: '#fff',
-                    font: 'Arial',
-                    text: 'I am Awesome!',
+                    family: 'Georgia',
+                    text: 'The shortest answer is doing the thing.',
+                    note: 'Ernest Hemingway',
                     width: 360,
                     height: 400,
                     fontHeight: 35,
-                    delay: 250
+                    delay: 300
                 };
             }
         }]);
@@ -51,7 +52,7 @@
 
     var SlateModel = SlateModel___default;;
 
-    var fonts = ['Arial', 'Arial Black', 'Arial Narrow', 'Arial Rounded MT Bold', 'Avant Garde', 'Calibri', 'Candara', 'Century Gothic', 'Franklin Gothic Medium', 'Futura', 'Geneva', 'Gill Sans', 'Helvetica', 'Impact', 'Lucida Grande', 'Optima', 'Segoe UI', 'Tahoma', 'Trebuchet MS', 'Verdana', 'Big Caslon', 'Bodoni MT', 'Book Antiqua', 'Calisto MT', 'Cambria', 'Didot', 'Garamond', 'Georgia', 'Goudy Old Style', 'Hoefler Text', 'Lucida Bright', 'Palatino', 'Perpetua', 'Rockwell', 'Rockwell Extra Bold', 'Baskerville', 'Times New Roman', 'Consolas', 'Courier New', 'Lucida Console', 'Lucida Sans Typewriter', 'Monaco', 'Andale Mono', 'Copperplate', 'Papyrus', 'Brush Script MT'];
+    var fonts = ['Andale Mono', 'Arial Black', 'Arial Narrow', 'Arial Rounded MT Bold', 'Arial', 'Avant Garde', 'Baskerville', 'Big Caslon', 'Bodoni MT', 'Book Antiqua', 'Brush Script MT', 'Calibri', 'Calisto MT', 'Cambria', 'Candara', 'Century Gothic', 'Consolas', 'Copperplate', 'Courier New', 'Didot', 'Franklin Gothic Medium', 'Futura', 'Garamond', 'Geneva', 'Georgia', 'Gill Sans', 'Goudy Old Style', 'Helvetica', 'Hoefler Text', 'Impact', 'Lucida Bright', 'Lucida Console', 'Lucida Grande', 'Lucida Sans Typewriter', 'Monaco', 'Optima', 'Palatino', 'Papyrus', 'Perpetua', 'Rockwell Extra Bold', 'Rockwell', 'Segoe UI', 'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana'];
 
     function Detector() {
         // a font will be compared against all the three default fonts.
@@ -127,12 +128,14 @@
 
             _.defaults(options, {
                 events: {
-                    'change .text-color': 'setTextColor',
-                    'change .bg-color': 'setBgColor',
-                    'keyup .height': 'setFontHeight',
+                    'change .text-color': '_updateModel',
+                    'change .bg-color': '_updateModel',
                     'keyup .text': 'setText',
-                    'keyup .delay': 'setDelay',
-                    'change .family': 'setFontFamily'
+                    'change .family': '_updateModel',
+                    'keyup .delay': '_updateModel',
+                    'keyup .font-height': '_updateModel',
+                    'keydown .delay': '_updateInput',
+                    'keydown .font-height': '_updateInput'
                 }
             });
 
@@ -151,30 +154,37 @@
         }, {
             key: 'render',
             value: function render() {
-                this.$el.append(this.template({ model: this.model.attributes }));
+                this.$el.append(this.template({
+                    model: this.model.attributes
+                }));
                 this.postRender();
             }
         }, {
             key: 'postRender',
             value: function postRender() {
+                var _this = this;
+
                 var select = this.$('.family');
 
+                var str = '';
                 this.fonts.forEach(function (font) {
-                    select.append('<option val="' + font + '">' + font + '</option>');
+                    var selected = font.name === _this.model.get('family') ? 'selected' : '';
+                    str += '<option val="' + font + '"' + selected + '>' + font + '</option>';
                 });
 
-                this.$('.text-color').val(this.model.get('textColor'));
-                this.$('.bg-color').val(this.model.get('bgColor'));
+                select.append(str);
+
+                var keys = ['bgColor', 'textColor'];
+                keys.forEach(function (key) {
+                    _this.$('[name="' + key + '"]').val(_this.model.get(key));
+                });
             }
         }, {
             key: 'setDebouncedText',
             value: function setDebouncedText(text) {
-                this.model.set({ text: text });
-            }
-        }, {
-            key: 'setDelay',
-            value: function setDelay(e) {
-                this.model.set({ delay: parseInt($(e.target).val(), 10) });
+                this.model.set({
+                    text: text
+                });
             }
         }, {
             key: 'setText',
@@ -183,30 +193,41 @@
                 this._setDebouncedText(text);
             }
         }, {
-            key: 'setFontHeight',
-            value: function setFontHeight(e) {
-                this.model.set({ fontHeight: parseInt($(e.target).val(), 10) });
+            key: '_updateInput',
+            value: function _updateInput(ev) {
+                if (ev.keyCode != 38 && ev.keyCode != 40) return;
+
+                var target = $(ev.currentTarget),
+                    val = parseInt(target.val()),
+                    increment = ev.keyCode == 38 ? 1 : -1,
+                    multiply = ev.shiftKey ? 10 : 1,
+                    newVal = val + increment * multiply;
+
+                if (newVal < 0) newVal = 0;
+
+                target.val(newVal);
             }
         }, {
-            key: 'setTextColor',
-            value: function setTextColor(e) {
-                this.model.set({ textColor: '#' + $(e.target).val() });
-            }
-        }, {
-            key: 'setBgColor',
-            value: function setBgColor(e) {
-                this.model.set({ bgColor: '#' + $(e.target).val() });
-            }
-        }, {
-            key: 'setFontFamily',
-            value: function setFontFamily(e) {
-                this.model.set({ font: $(e.target).val().trim() });
+            key: '_updateModel',
+            value: function _updateModel(ev) {
+                var target = $(ev.currentTarget),
+                    val = target.val(),
+                    attr = undefined;
+
+                attr = target.attr('name');
+
+                if (attr === 'fontHeight' || attr === 'delay') val = parseInt(val, 10);
+                if (attr === 'textColor' || attr === 'bgColor') val = '#' + val;
+
+                this.model.set(attr, val);
             }
         }, {
             key: 'setAttributes',
             value: function setAttributes(e) {
                 var text = $('[name="text"]').val();
-                this.model.set({ text: text });
+                this.model.set({
+                    text: text
+                });
             }
         }]);
 
@@ -218,7 +239,7 @@
     var slate = {
         setFont: function (ctx) {
             var fontSize = this.fontHeight * this.scale + 'px';
-            ctx.font = fontSize + '/' + fontSize + ' ' + this.font;
+            ctx.font = fontSize + '/' + fontSize + ' ' + this.family;
         },
 
         createDummy: function () {
@@ -268,13 +289,13 @@
             this.width = options.width;
             this.text = options.text || '';
             this.textColor = options.textColor;
-            this.delay = options.delay || 350;
-            this.fontHeight = options.fontHeight || 40;
-            this.font = options.font || 'Georgia, serif';
+            this.delay = options.delay || 0;
+            this.fontHeight = options.fontHeight || 0;
+            this.family = options.family || 'Georgia, serif';
             this.scale = 2;
         },
 
-        render: function (element) {
+        renderGif: function (element) {
             var _this = this;
             var ctx = _this.getCanvas().getContext('2d');
             var dummy = _this.createDummy();
@@ -282,7 +303,7 @@
 
             _this.setFont(dummy);
 
-            var words = this.text.trim().split(' ');
+            var words = this.text.split(' ');
             for (var i = 0, l = words.length; i < l; i++) {
                 _this.drawBackground(dummy);
                 _this.drawText(dummy, words[i]);
@@ -297,11 +318,79 @@
             _this.drawBackground(dummy);
             _this.drawDummy(ctx, dummy);
             gif.addFrame(ctx, {
-                copy: true,
                 delay: 2 * _this.delay
             });
 
             gif.render();
+        },
+
+        getStyles: function (obj) {
+            var str = '';
+
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    str += prop + ':' + obj[prop] + ';';
+                }
+            }
+
+            return str;
+        },
+
+        getSVG: function (dummy) {
+            var outer = {
+                display: 'table-cell',
+                width: dummy.canvas.width + 'px',
+                height: dummy.canvas.height + 'px',
+                color: this.textColor,
+                'font-size': this.fontHeight * this.scale + 'px',
+                'font-family': this.family,
+                'vertical-align': 'middle'
+            };
+
+            var width = dummy.canvas.width - 20;
+            var inner = {
+                margin: '0 auto',
+                width: width + 'px',
+                'word-wrap': 'break-word'
+            };
+
+            var data = 'data:image/svg+xml,' + '<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'720\' height=\'800\'>' + '<foreignObject width=\'100%\' height=\'100%\'>' + '<div xmlns=\'http://www.w3.org/1999/xhtml\' style=\'' + this.getStyles(outer) + '\'>' + '<div align=\'center\' style=\'' + this.getStyles(inner) + '\'>' + this.text.trim() + '</div>' + '</div>' + '</foreignObject>' + '</svg>';
+
+            return data;
+        },
+
+        renderImage: function (element) {
+            var _this = this;
+            var ctx = _this.getCanvas().getContext('2d');
+            var dummy = _this.createDummy();
+            var gif = _this.getGifCreator(element);
+
+            var DOMURL = window.URL || window.webkitURL || window;
+            var img = new Image();
+            // var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+            // var url = DOMURL.createObjectURL(svg);
+
+            img.onload = function () {
+                _this.drawBackground(dummy);
+                // _this.drawText(dummy, 'Hello world there is awesome thing to be learned');
+                dummy.drawImage(img, 0, 0);
+                _this.drawDummy(ctx, dummy);
+                gif.addFrame(ctx, {
+                    delay: 0
+                });
+
+                gif.render();
+            };
+
+            img.src = this.getSVG(dummy);
+        },
+
+        render: function (element) {
+            if (this.delay > 0) {
+                this.renderGif(element);
+            } else {
+                this.renderImage(element);
+            }
         },
 
         getGifCreator: function (callback) {
@@ -373,9 +462,6 @@
     var ShareView___Backbone = Backbone;
     var ShareView__View = ShareView___Backbone.View;
 
-    // this is small template so we can use it here.
-    var shareTemplate = '     <a class="url-btn get-url" href="#">Get Url</a>     <% if (model.url) { %>          <input class="url" value="<%= model.url + ".gif" %>"></input>         <div class="share-btn"><i class="fa fa-share-alt"></i></div>     <% } %> ';
-
     var ShareView___default = (function (_View) {
         var _class = function _default(options) {
             ShareView___classCallCheck(this, _class);
@@ -399,7 +485,7 @@
                 }
             });
 
-            _this.template = _.template(shareTemplate);
+            _this.template = _.template($('script.share-template').html());
         };
 
         ShareView___inherits(_class, _View);
@@ -436,7 +522,7 @@
                     media: url + '.gif',
                     position: 'right',
                     linkedin: false,
-                    title: this.model.get('text')
+                    title: this.model.get('note') || this.model.get('text')
                 });
             }
         }, {

@@ -8,12 +8,13 @@ export default class extends Model{
         return {
             bgColor: bgColor,
             textColor: '#fff',
-            font: 'Arial',
-            text: 'I am Awesome!',
+            family: 'Georgia',
+            text: 'The shortest answer is doing the thing.',
+            note: 'Ernest Hemingway',
             width: 360,
             height: 400,
             fontHeight: 35,
-            delay: 250
+            delay: 300
         }
     }
 };

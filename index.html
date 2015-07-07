@@ -19,32 +19,44 @@
             </div>
         </header>
 
+        <script type="text/template" class="share-template">
+            <a class="url-btn get-url" href="#">Get Url</a>
+            <% if (model.url) { %>
+                <input class="url" value="<%= model.url + ".gif" %>"></input>
+                <div class="share-btn"><i class="fa fa-share-alt"></i></div>
+            <% } %>
+        </script>
+
         <script type="text/template" class="slate-config">
             <ul>
                 <li>
                     <label for='text'>Text:</label>
-                    <input id="text" class="text long" type="text" name="text" value="" placeholder="I am Awesome!">
+                    <input id="text" class="text long" type="text" name="text" value="The shortest answer is doing the thing.">
+                </li>
+                <li>
+                    <label for='note'>Note:</label>
+                    <input id="note" class="note long" type="note" name="note" value="Ernest Hemingway">
                 </li>
                 <li>
                     <label for='family'>Font:</label>
-                    <select id='family' class='dropdown long family' name="fontFamily"></select>
+                    <select id='family' class='dropdown long family' name="family"></select>
                 </li>
                 <li>
                     <label for='text-color'>Color:</label>
-                    <input id="text-color" class="color text-color" type="text" name="textColor" value="" placeholder="">
+                    <input id="text-color" class="color text-color" type="text" name="textColor">
                 </li>
                 <li>
                     <label for='bg-color'>Background:</label>
-                    <input id="bg-color" class="color bg-color" type="text" name="bgColor" value="" placeholder="">
+                    <input id="bg-color" class="color bg-color" type="text" name="bgColor">
                 </li>
                 <li>
                     <label for='delay'>Frame Delay:</label>
-                    <input id="delay" class="delay" type="text" name="delay" value="200" placeholder="">
+                    <input id="delay" class="delay" type="text" name="delay" value="300">
                     <span class='unit'>ms</span>
                 </li>
                 <li>
                     <label for='height'>Font Height:</label>
-                    <input id="height" class="height" type="text" name="fontHeight" value="35" placeholder="">
+                    <input id="height" class="font-height" type="text" name="fontHeight" value="35">
                     <span class='unit'>px</span>
                 </li>
             </ol>
@@ -70,7 +82,7 @@
         </div>
 
         <footer class="site__footer">
-        <div class='note'>
+        <div class='footer__note'>
             <small>* Inspired from <a target="_blank" href="http://quickestquotes.tumblr.com/">Quickest Quotes</a> by <a target="_blank" href="http://twitter.com/twholman">@twholmanx</a>.</small>
             <hr />
             <div class='footer-text'>By <a href='https://twitter.com/bitshadow'>Jignesh Kakadiya</a> • <a href='https://github.com/bitshadow/slate'>Source</a> • <a href="https://twitter.com/share?text=Slate: Cool text meme generator&hashtags=js,css&url=http://bitshadow.github.io/slate&via=bitshadow">Tweet</a> • Made with ES6</div>

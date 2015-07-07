@@ -1,7 +1,7 @@
 export default {
     setFont(ctx) {
             var fontSize = (this.fontHeight * this.scale) + 'px';
-            ctx.font = fontSize + '/' + fontSize + ' ' + this.font;
+            ctx.font = fontSize + '/' + fontSize + ' ' + this.family;
         },
 
         createDummy() {
@@ -51,13 +51,13 @@ export default {
             this.width = options.width;
             this.text = options.text || '';
             this.textColor = options.textColor;
-            this.delay = options.delay || 350;
-            this.fontHeight = options.fontHeight || 40;
-            this.font = options.font || 'Georgia, serif';
+            this.delay = options.delay || 0;
+            this.fontHeight = options.fontHeight || 0;
+            this.family = options.family || 'Georgia, serif';
             this.scale = 2;
         },
 
-        render(element) {
+        renderGif(element) {
             let _this = this;
             let ctx = _this.getCanvas().getContext('2d');
             let dummy = _this.createDummy();
@@ -65,7 +65,7 @@ export default {
 
             _this.setFont(dummy);
 
-            var words = this.text.trim().split(' ');
+            var words = this.text.split(' ');
             for (let i = 0, l = words.length; i < l; i++) {
                 _this.drawBackground(dummy);
                 _this.drawText(dummy, words[i]);
@@ -80,11 +80,87 @@ export default {
             _this.drawBackground(dummy);
             _this.drawDummy(ctx, dummy);
             gif.addFrame(ctx, {
-                copy: true,
                 delay: 2 * _this.delay
             });
 
             gif.render();
+        },
+
+        getStyles(obj) {
+            let str = '';
+
+            for (let prop in obj) {
+                if(obj.hasOwnProperty(prop)) {
+                    str += prop + ':' + obj[prop] + ';';
+                }
+            }
+
+            return str;
+        },
+
+        getSVG(dummy) {
+            let outer = {
+                display: 'table-cell',
+                width: dummy.canvas.width + 'px',
+                height: dummy.canvas.height + 'px',
+                color: this.textColor,
+                'font-size': (this.fontHeight * this.scale) + 'px',
+                'font-family': this.family,
+                'vertical-align': 'middle'
+            };
+
+            let width = (dummy.canvas.width) - 20;
+            let inner = {
+                margin: '0 auto',
+                width: width + 'px',
+                'word-wrap': 'break-word'
+            };
+
+            let data = "data:image/svg+xml," +
+                "<svg xmlns='http://www.w3.org/2000/svg' width='720' height='800'>" +
+                "<foreignObject width='100%' height='100%'>" +
+                "<div xmlns='http://www.w3.org/1999/xhtml' style='" + this.getStyles(outer) + "'>" +
+                "<div align='center' style='"+ this.getStyles(inner) + "'>" + this.text.trim() +"</div>" +
+                "</div>" +
+                "</foreignObject>" +
+                "</svg>";
+
+            return data;
+        },
+
+        renderImage(element) {
+            let _this = this;
+            let ctx = _this.getCanvas().getContext('2d');
+            let dummy = _this.createDummy();
+            let gif = _this.getGifCreator(element);
+
+            var DOMURL = window.URL || window.webkitURL || window;
+            var img = new Image();
+            // var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+            // var url = DOMURL.createObjectURL(svg);
+
+            img.onload = function() {
+                _this.drawBackground(dummy);
+                // _this.drawText(dummy, 'Hello world there is awesome thing to be learned');
+                dummy.drawImage(img, 0, 0);
+                _this.drawDummy(ctx, dummy);
+                gif.addFrame(ctx, {
+                    delay: 0
+                });
+
+                gif.render();
+            }
+
+            img.src = this.getSVG(dummy);
+        },
+
+        render(element) {
+            if (this.delay > 0) {
+                this.renderGif(element);
+            } else {
+                this.renderImage(element);
+            }
+
         },
 
         getGifCreator(callback) {

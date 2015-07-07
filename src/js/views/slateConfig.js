@@ -1,17 +1,21 @@
 import fonts from '../modules/fonts';
 
-let { View } = Backbone;
+let {
+    View
+} = Backbone;
 
 export default class extends View {
     constructor(options) {
         _.defaults(options, {
             events: {
-                'change .text-color': 'setTextColor',
-                'change .bg-color': 'setBgColor',
-                'keyup .height': 'setFontHeight',
+                'change .text-color': '_updateModel',
+                'change .bg-color': '_updateModel',
                 'keyup .text': 'setText',
-                'keyup .delay': 'setDelay',
-                'change .family': 'setFontFamily'
+                'change .family': '_updateModel',
+                'keyup .delay': '_updateModel',
+                'keyup .font-height': '_updateModel',
+                'keydown .delay': '_updateInput',
+                'keydown .font-height': '_updateInput',
             }
         });
 
@@ -25,27 +29,33 @@ export default class extends View {
     }
 
     render() {
-        this.$el.append(this.template({ model: this.model.attributes }));
+        this.$el.append(this.template({
+            model: this.model.attributes
+        }));
         this.postRender();
     }
 
     postRender() {
         let select = this.$('.family');
 
+        let str = ''
         this.fonts.forEach((font) => {
-            select.append('<option val="' + font + '">' + font + '</option>');
+            let selected = font.name === this.model.get('family') ? 'selected' : '';
+            str += '<option val="' + font + '"' + selected + '>' + font + '</option>';
         });
 
-        this.$('.text-color').val(this.model.get('textColor'));
-        this.$('.bg-color').val(this.model.get('bgColor'))
+        select.append(str);
+
+        var keys = ['bgColor', 'textColor'];
+        keys.forEach((key) => {
+            this.$('[name="' + key + '"]').val(this.model.get(key));
+        });
     }
 
     setDebouncedText(text) {
-        this.model.set({ text: text });
-    }
-
-    setDelay(e) {
-        this.model.set({ delay: parseInt($(e.target).val(), 10) })
+        this.model.set({
+            text: text
+        });
     }
 
     setText(e) {
@@ -53,24 +63,37 @@ export default class extends View {
         this._setDebouncedText(text);
     }
 
-    setFontHeight(e) {
-        this.model.set({ fontHeight: parseInt($(e.target).val(), 10) });
+    _updateInput(ev) {
+        if (ev.keyCode != 38 && ev.keyCode != 40) return;
+
+        var target = $(ev.currentTarget),
+            val = parseInt(target.val()),
+            increment = ev.keyCode == 38 ? 1 : -1,
+            multiply = ev.shiftKey ? 10 : 1,
+            newVal = val + increment * multiply;
+
+        if (newVal < 0) newVal = 0;
+
+        target.val(newVal);
     }
 
-    setTextColor(e) {
-        this.model.set({ textColor: '#' + $(e.target).val() });
-    }
+    _updateModel(ev) {
+        let target = $(ev.currentTarget),
+            val = target.val(),
+            attr;
 
-    setBgColor(e) {
-        this.model.set({ bgColor: '#' + $(e.target).val() });
-    }
+        attr = target.attr('name');
 
-    setFontFamily(e) {
-        this.model.set({ font: $(e.target).val().trim()});
+        if (attr === 'fontHeight' || attr === 'delay') val = parseInt(val, 10);
+        if (attr === 'textColor' || attr === 'bgColor') val = '#' + val;
+
+        this.model.set(attr, val);
     }
 
     setAttributes(e) {
         let text = $('[name="text"]').val();
-        this.model.set({text: text});
+        this.model.set({
+            text: text
+        });
     }
 }

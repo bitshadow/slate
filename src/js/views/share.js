@@ -3,15 +3,6 @@ import config from '../config/share';
 
 let { View } = Backbone;
 
-// this is small template so we can use it here.
-let shareTemplate = ' \
-    <a class="url-btn get-url" href="#">Get Url</a> \
-    <% if (model.url) { %>  \
-        <input class="url" value="<%= model.url + ".gif" %>"></input> \
-        <div class="share-btn"><i class="fa fa-share-alt"></i></div> \
-    <% } %> \
-';
-
 export default class extends View {
     constructor(options) {
         _.defaults(options, {
@@ -33,7 +24,7 @@ export default class extends View {
             }
         });
 
-        _this.template = _.template(shareTemplate);
+        _this.template = _.template($('script.share-template').html());
     }
 
     postRender() {
@@ -64,7 +55,7 @@ export default class extends View {
             media: url + '.gif',
             position: 'right',
             linkedin: false,
-            title: this.model.get('text')
+            title: this.model.get('note') || this.model.get('text')
         });
     }
 
