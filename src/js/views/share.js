@@ -50,13 +50,12 @@ export default class extends View {
     }
 
     showShare(url) {
-        let title = this.model.get('note') || this.model.get('text');
         this.$('.share-btn').hideshare({
             link: url,
             media: url + '.gif',
             position: 'right',
             linkedin: false,
-            title: title + ' Generated with Slate. http://bitshadow.github.io/slate'
+            title: 'Created with Slate. http://bitshadow.github.io/slate'
         });
     }
 

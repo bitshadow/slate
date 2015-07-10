@@ -38,7 +38,6 @@
                     textColor: '#fff',
                     family: 'Georgia',
                     text: 'The shortest answer is doing the thing.',
-                    note: 'Ernest Hemingway',
                     width: 360,
                     height: 400,
                     fontHeight: 35,
@@ -517,13 +516,12 @@
         }, {
             key: 'showShare',
             value: function showShare(url) {
-                var title = this.model.get('note') || this.model.get('text');
                 this.$('.share-btn').hideshare({
                     link: url,
                     media: url + '.gif',
                     position: 'right',
                     linkedin: false,
-                    title: title + ' Generated with Slate. http://bitshadow.github.io/slate'
+                    title: 'Created with Slate. http://bitshadow.github.io/slate'
                 });
             }
         }, {
