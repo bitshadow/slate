@@ -120,7 +120,7 @@ export default {
                 "<svg xmlns='http://www.w3.org/2000/svg' width='720' height='800'>" +
                 "<foreignObject width='100%' height='100%'>" +
                 "<div xmlns='http://www.w3.org/1999/xhtml' style='" + this.getStyles(outer) + "'>" +
-                "<div align='center' style='"+ this.getStyles(inner) + "'>" + this.text.trim() +"</div>" +
+                    "<div align='center' style='"+ this.getStyles(inner) + "'>" + this.text.trim() +"</div>" +
                 "</div>" +
                 "</foreignObject>" +
                 "</svg>";
