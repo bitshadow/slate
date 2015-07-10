@@ -517,12 +517,13 @@
         }, {
             key: 'showShare',
             value: function showShare(url) {
+                var title = this.model.get('note') || this.model.get('text');
                 this.$('.share-btn').hideshare({
                     link: url,
                     media: url + '.gif',
                     position: 'right',
                     linkedin: false,
-                    title: this.model.get('note') || this.model.get('text')
+                    title: title + ' Generated with Slate. http://bitshadow.github.io/slate'
                 });
             }
         }, {
