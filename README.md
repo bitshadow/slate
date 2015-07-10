@@ -6,6 +6,7 @@
 ##[See it in Action](http://bitshadow.github.io/Slate)
 
 ## Contributing
+Want to add some extra features. Pull requests are welcome :).
 
 ```
   $ git clone https://github.com/bitshadow/Slate.git
