@@ -107,10 +107,10 @@ small {
     width: 720px;
     margin: 9px auto 0;
     height: 480px;
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(150,150,150,0.5) 0%,rgba(150,150,150,0) 70%);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(150,150,150,0.5) 0%,rgba(150,150,150,0) 70%);
-    background: -o-radial-gradient(center, ellipse cover, rgba(150,150,150,0.5) 0%,rgba(150,150,150,0) 70%);
-    background: radial-gradient(center, ellipse cover, rgba(150,150,150,0.5) 0%,rgba(150,150,150,0) 70%);
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(150, 150, 150, 0.5) 0%, rgba(150, 150, 150, 0) 70%);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(150, 150, 150, 0.5) 0%, rgba(150, 150, 150, 0) 70%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(150, 150, 150, 0.5) 0%, rgba(150, 150, 150, 0) 70%);
+    background: radial-gradient(center, ellipse cover, rgba(150, 150, 150, 0.5) 0%, rgba(150, 150, 150, 0) 70%);
 }
 
 footer {
@@ -253,6 +253,12 @@ footer {
 
 .footer__note {
     color: #aaa;
+}
+
+.star {
+    margin-top: -50px;
+    position: absolute;
+    right: 0;
 }
 
 /**
