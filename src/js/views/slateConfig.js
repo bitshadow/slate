@@ -46,7 +46,7 @@ export default class extends View {
 
         select.append(str);
 
-        var keys = ['bgColor', 'textColor'];
+        var keys = ['bgColor', 'textColor', 'text'];
         keys.forEach((key) => {
             this.$('[name="' + key + '"]').val(this.model.get(key));
         });

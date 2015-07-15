@@ -6,7 +6,7 @@
 
     var colors = ['#B7D438', '#1C747F', '#4B687C', '#5CB932', '#EF7409', '#F3D063', '#31B98E', '#6AA398', '#D55A29', '#B32B54', '#FBB30D', '#621239', '#315873', '#C12E01', '#671C41', '#22A1FF', '#621239', '#6CC08E', '#3B8187', '#D3192F', '#80A000', '#F48200', '#000C3B', '#3B8187', '#BE1E2D', '#1A2728', '#5F8964', '#EA5F61', '#BA4938', '#185546', '#4667B2', '#74A187', '#F10043', '#EEA623', '#3B5C79'];
 
-    var modules_colors = colors;
+    var quotes = ['The Shortest Answer Is Doing The Thing.', 'Don\'t Just Be Good To Others. Be Good To Yourself To.', 'Its Ok To Be Happy With A Calm Life', 'Stay True In Dark And Humble In Spotlight.', 'I DONT WANT PERFECT I WANT HONEST', 'Hard Days Are The Best Because That\'s When Champions Are Made', 'KEEP KALM AND LET IT GO', 'Weather You Think You Can Our You Can\'t You\'re Right', 'You know What\'s One Wrong Thing We Do When We Fall In Love?   WE EXPECT ☹ ', 'NOT TO SPOIL THE ENDING FOR YOU, BUT EVERYTHING IS GOING TO BE    OK ', 'TRUST ME YOU CAN DANCE    -VODKA'];
 
     var SlateModel___createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -31,13 +31,13 @@
         SlateModel___createClass(_class, [{
             key: 'defaults',
             value: function defaults() {
-                var bgColor = modules_colors[Math.floor(Math.random() * modules_colors.length)];
-                console.log(bgColor);
+                var bgColor = colors[Math.floor(Math.random() * colors.length)];
+                var quote = quotes[Math.floor(Math.random() * quotes.length)];
                 return {
                     bgColor: bgColor,
                     textColor: '#fff',
                     family: 'Georgia',
-                    text: 'The shortest answer is doing the thing.',
+                    text: quote,
                     width: 360,
                     height: 400,
                     fontHeight: 35,
@@ -173,7 +173,7 @@
 
                 select.append(str);
 
-                var keys = ['bgColor', 'textColor'];
+                var keys = ['bgColor', 'textColor', 'text'];
                 keys.forEach(function (key) {
                     _this.$('[name="' + key + '"]').val(_this.model.get(key));
                 });
