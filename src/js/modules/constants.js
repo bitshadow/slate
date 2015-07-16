@@ -44,7 +44,7 @@ const quotes = [
     'I DONT WANT PERFECT I WANT HONEST',
     "Hard Days Are The Best Because That's When Champions Are Made",
     'KEEP KALM AND LET IT GO',
-    "Weather You Think You Can Our You Can't You're Right",
+    "Whether You Think You Can Our You Can't You're Right",
     "You know What's One Wrong Thing We Do When We Fall In Love?   WE EXPECT ☹ ",
     'NOT TO SPOIL THE ENDING FOR YOU, BUT EVERYTHING IS GOING TO BE    OK ',
     'TRUST ME YOU CAN DANCE    -VODKA'
