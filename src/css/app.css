@@ -322,3 +322,31 @@ footer {
         -webkit-transform: scaleY(1.0);
     }
 }
+
+
+@media (max-width: 760px) {
+    .site__content {
+        max-width: 360px;
+        height: 840px;
+    }
+
+    .slate__config ul {
+        margin: 0 25px;
+    }
+
+    .slate__config {
+        float: none;
+    }
+
+    .slate__preview {
+        float: none;
+    }
+
+    #result {
+        width: 340px;
+        margin: 9px;
+    }
+    .github-ribbon {
+        display: none;
+    }
+}
