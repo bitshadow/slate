@@ -46,7 +46,7 @@ export default class extends View {
 
         select.append(str);
 
-        var keys = ['bgColor', 'textColor', 'text'];
+        let keys = ['bgColor', 'textColor', 'text'];
         keys.forEach((key) => {
             this.$('[name="' + key + '"]').val(this.model.get(key));
         });
@@ -59,14 +59,14 @@ export default class extends View {
     }
 
     setText(e) {
-        var text = $(e.target).val();
+        let text = $(e.target).val();
         this._setDebouncedText(text);
     }
 
     _updateInput(ev) {
         if (ev.keyCode != 38 && ev.keyCode != 40) return;
 
-        var target = $(ev.currentTarget),
+        let target = $(ev.currentTarget),
             val = parseInt(target.val()),
             increment = ev.keyCode == 38 ? 1 : -1,
             multiply = ev.shiftKey ? 10 : 1,

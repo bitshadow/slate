@@ -79,7 +79,7 @@ function Detector() {
         h.removeChild(s);
     }
 
-    var detect = (font) => {
+    let detect = (font) => {
         let detected = false;
         for (let index in baseFonts) {
             // name of the font along with the base font for fallback.

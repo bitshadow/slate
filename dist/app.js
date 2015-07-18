@@ -366,8 +366,8 @@
 
             var DOMURL = window.URL || window.webkitURL || window;
             var img = new Image();
-            // var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
-            // var url = DOMURL.createObjectURL(svg);
+            // let svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+            // let url = DOMURL.createObjectURL(svg);
 
             img.onload = function () {
                 _this.drawBackground(dummy);

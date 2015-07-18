@@ -1,6 +1,6 @@
 export default {
     setFont(ctx) {
-            var fontSize = (this.fontHeight * this.scale) + 'px';
+            let fontSize = (this.fontHeight * this.scale) + 'px';
             ctx.font = fontSize + '/' + fontSize + ' ' + this.family;
         },
 
@@ -38,7 +38,7 @@ export default {
         },
 
         getCanvas(options) {
-            var canvas = document.createElement('canvas');
+            let canvas = document.createElement('canvas');
             canvas.width = this.width;
             canvas.height = this.height;
 
@@ -65,7 +65,7 @@ export default {
 
             _this.setFont(dummy);
 
-            var words = this.text.split(' ');
+            let words = this.text.split(' ');
             for (let i = 0, l = words.length; i < l; i++) {
                 _this.drawBackground(dummy);
                 _this.drawText(dummy, words[i]);
@@ -134,10 +134,10 @@ export default {
             let dummy = _this.createDummy();
             let gif = _this.getGifCreator(element);
 
-            var DOMURL = window.URL || window.webkitURL || window;
-            var img = new Image();
-            // var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
-            // var url = DOMURL.createObjectURL(svg);
+            let DOMURL = window.URL || window.webkitURL || window;
+            let img = new Image();
+            // let svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+            // let url = DOMURL.createObjectURL(svg);
 
             img.onload = function() {
                 _this.drawBackground(dummy);
