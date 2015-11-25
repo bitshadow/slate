@@ -8,7 +8,9 @@ let { View } = Backbone;
 class SlateApp extends View {
     constructor(options) {
         super(options);
+
         let model = new SlateModel();
+
         this.slateConfigView = new SlateConfigView({
             model: model,
             el: $('.slate__config')
