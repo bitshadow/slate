@@ -11,7 +11,7 @@
 Want to add some extra features. Pull requests are welcome :).
 
 ```
-  $ git clone https://github.com/bitshadow/Slate.git
+  $ git clone https://github.com/bitshadow/slate.git
 
   $ cd Slate
 ```
