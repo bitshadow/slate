@@ -13,7 +13,7 @@ Want to add some extra features. Pull requests are welcome :).
 ```
   $ git clone https://github.com/bitshadow/slate.git
 
-  $ cd Slate
+  $ cd slate
 ```
 
 As some of the browsers don't allow you load web workers when running script. You will need to start the local server.
