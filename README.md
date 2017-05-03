@@ -1,11 +1,11 @@
-#Slate
+# Slate
 *Simple and cool text meme generator*
 
 ![alt tag](http://i.imgur.com/Aj0IWPM.gif)  ![alt tag](http://i.imgur.com/XcpDwZG.gif)
 ![alt tag](http://i.imgur.com/sUAu2Bw.gif)  ![alt tag](http://imgur.com/BqF3fUK.gif)
 
 
-##[See it in Action](http://bitshadow.github.io/Slate)
+## [See it in Action](http://bitshadow.github.io/slate)
 
 ## Contributing
 Want to add some extra features. Pull requests are welcome :).
