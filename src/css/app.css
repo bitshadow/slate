@@ -137,6 +137,7 @@ footer {
     width: 85px;
     font-size: 16px;
     text-shadow: 0 2px 6px #000;
+    margin-right: 10px;
 }
 
 .slate__config li {
